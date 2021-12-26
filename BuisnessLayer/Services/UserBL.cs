@@ -19,7 +19,6 @@ namespace BuisnessLayer.services
         }
         public bool Registration(UserRegistration user)
         {
-            // throw new NotImplementedException();
             try
             {
                 return this.UserRL.Registration(user);
@@ -35,5 +34,16 @@ namespace BuisnessLayer.services
             return this.UserRL.GetUserRegistration();
         }
 
+        public UserLogin GetLoginData(UserLogin User1)
+        {
+            try
+            {
+                return this.UserRL.GetLoginData(User1);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

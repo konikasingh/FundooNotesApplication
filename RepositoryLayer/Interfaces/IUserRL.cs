@@ -13,5 +13,7 @@ namespace RepositoryLayer.interfaces
         public bool Registration(UserRegistration User);
 
         IEnumerable<User> GetUserRegistration();
+
+        public UserLogin GetLoginData(UserLogin User1);
     }
 }

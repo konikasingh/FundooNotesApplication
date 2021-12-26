@@ -17,6 +17,12 @@ namespace RepositoryLayer.Services
         {
             this.context = context;
         }
+
+        /// <summary>
+        /// Register the user (API) 
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public bool Registration(UserRegistration user)
         {
             try
@@ -26,9 +32,6 @@ namespace RepositoryLayer.Services
                 newUser.LastName = user.LastName;
                 newUser.Password = user.Password;
                 newUser.EmailId = user.EmailId;
-                //newUser.CreatedAt = DateTime.Now;
-
-                //adding user details to the database user table 
                 this.context.UserTable.Add(newUser);
 
                 int result = this.context.SaveChanges();
@@ -46,10 +49,38 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
-      
+        /// <summary>
+        /// Getting details of user (API)
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<User> GetUserRegistration()
         {
             return context.UserTable.ToList();
+        }
+        /// <summary>
+        /// login of user with emailid and password
+        /// </summary>
+        /// <param name="User1"></param>
+        /// <returns></returns>
+        public UserLogin GetLoginData(UserLogin User1)
+        {
+            try
+            {
+                 var ValidLogin = this.context.UserTable.Where(X => X.EmailId == User1.EmailId && X.Password == User1.Password).FirstOrDefault();
+                 if(ValidLogin != null)
+                 {
+                    return User1;
+                 }
+                 else
+                 {
+                    return null;
+                 }
+
+            }
+            catch (ArgumentException)
+            {
+                throw;
+            }
         }
     }
 }

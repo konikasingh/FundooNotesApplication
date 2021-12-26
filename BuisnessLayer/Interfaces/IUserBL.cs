@@ -13,5 +13,7 @@ namespace BuisnessLayer.interfaces
         public bool Registration(UserRegistration user);
 
         IEnumerable<User> GetUserRegistration();
+
+        public UserLogin GetLoginData(UserLogin User1);
     }
 }

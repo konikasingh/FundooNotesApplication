@@ -17,7 +17,7 @@ namespace CommonLayer.models
         [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
-        [StringLength(30, MinimumLength = 6, ErrorMessage = "Password contain six Character")]
+        [StringLength(10, MinimumLength = 6, ErrorMessage = "Password contain six Character")]
         public string Password { get; set; }
     }
 }

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using RepositoryLayer.Context;
 using RepositoryLayer.interfaces;
 using RepositoryLayer.Services;
+using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,11 @@ namespace FundooNotes
             services.AddTransient<IUserRL, UserRL>();
             services.AddDbContext<ucontext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:UserTable"]));
             services.AddControllers();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "FundooNotes", Version = "v1" });
+            });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +49,8 @@ namespace FundooNotes
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FundooNotes v1"));
             }
 
             app.UseHttpsRedirection();
