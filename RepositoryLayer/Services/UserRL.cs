@@ -57,7 +57,11 @@ namespace RepositoryLayer.Services
         {
             return context.UserTable.ToList();
         }
-
+        /// <summary>
+        /// Getting the data using ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public User GetWithId(long id)
         {
             try
@@ -69,7 +73,11 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
-
+        /// <summary>
+        /// Update the user using id
+        /// </summary>
+        /// <param name="AClient"></param>
+        /// <param name="client"></param>
         public void Update(User AClient, User client)
         {
             try
@@ -86,7 +94,10 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
-
+        /// <summary>
+        /// Delete the user by using id
+        /// </summary>
+        /// <param name="client"></param>
         public void Delete(User client)
         {
             try

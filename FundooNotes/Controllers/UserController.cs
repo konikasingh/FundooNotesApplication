@@ -21,12 +21,10 @@ namespace FundooNotes.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        IUserBL bl;
-        string key = "My secret key";
-
+        IUserBL bl;     //create the object of IUserBL class
         public UserController(IUserBL bl)
         {
-            this.bl = bl;
+            this.bl = bl;      //bl is the parameter of IuserBL
         }
 
         /// <summary>
@@ -78,7 +76,11 @@ namespace FundooNotes.Controllers
                 return this.BadRequest(new { success = false, message = ex.Message });
             }
         }
-
+        /// <summary>
+        /// Search User With UserId
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("GetWithId/{id}")]
         public IActionResult GetWithId(long id)
         {
@@ -96,7 +98,12 @@ namespace FundooNotes.Controllers
                 throw;
             }
         }
-
+        /// <summary>
+        /// Update the particular user using userId
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPut("UpdateId/{id}")]
         public IActionResult Update(long id, [FromBody] User user)
         {
@@ -105,7 +112,7 @@ namespace FundooNotes.Controllers
                 User updateUser = bl.GetWithId(id);
                 if (updateUser == null)
                 {
-                    return BadRequest(new { Success = false, message = "No User Found With Id" });
+                    return BadRequest(new { Success = false, message = "No User are there with this Id" });
                 }
                 bl.Update(updateUser, user);
                 return Ok(new { Success = true, message = "Update Sucessful" });
@@ -115,7 +122,11 @@ namespace FundooNotes.Controllers
                 throw;
             }
         }
-
+        /// <summary>
+        /// Delete the user with uaing the UserId
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("DeleteWithId/{id}")]
         public IActionResult Delete(long id)
         {
@@ -147,28 +158,19 @@ namespace FundooNotes.Controllers
             try
             {
                 UserLogin result = this.bl.GetLoginData(user1);
-                //User credentials = userBL.GetLoginData(user1.EmailId, user1.Password);
                 if (result == null)
                 {
-                    return BadRequest(new { success = false, message = "email and password found" });
+                    return this.BadRequest(new { Success = false, message = "Registration Unsuccessful" });
+
                 }
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var tokenKey = Encoding.ASCII.GetBytes(key);
-                var tokenDescriptor = new SecurityTokenDescriptor
+                else
                 {
-                    Subject = new ClaimsIdentity(new Claim[]
-                    {
-                        new Claim(ClaimTypes.Name, user1.EmailId),
-                    }),
-                    Expires = DateTime.UtcNow.AddMinutes(15),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
-                };
-                var token = tokenHandler.CreateToken(tokenDescriptor);
-                return Ok(new { Success = true, message = "Login Successful", JwtToken=tokenHandler.WriteToken(token)});
+                    return this.Ok(new { Success = true, message = "User Login Successfull" });
+                }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                return this.BadRequest(new { success = false, message = ex.Message });
             }
         }
     }
