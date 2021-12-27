@@ -13,6 +13,9 @@ namespace RepositoryLayer.interfaces
         public bool Registration(UserRegistration User);
 
         IEnumerable<User> GetUserRegistration();
+        public User GetWithId(long id);
+        public void Update(User AClient, User client);
+        public void Delete(User client);
 
         public UserLogin GetLoginData(UserLogin User1);
     }

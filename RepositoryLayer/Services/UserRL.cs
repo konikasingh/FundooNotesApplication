@@ -57,6 +57,50 @@ namespace RepositoryLayer.Services
         {
             return context.UserTable.ToList();
         }
+
+        public User GetWithId(long id)
+        {
+            try
+            {
+                return this.context.UserTable.FirstOrDefault(i => i.Id == id);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void Update(User AClient, User client)
+        {
+            try
+            {
+                AClient.FirstName = client.FirstName;
+                AClient.LastName = client.LastName;
+                AClient.EmailId = client.EmailId;
+                AClient.Password = client.Password;
+                AClient.Modifiedat = client.Modifiedat;
+                this.context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        public void Delete(User client)
+        {
+            try
+            {
+                this.context.UserTable.Remove(client);
+                this.context.SaveChanges();
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
         /// <summary>
         /// login of user with emailid and password
         /// </summary>
