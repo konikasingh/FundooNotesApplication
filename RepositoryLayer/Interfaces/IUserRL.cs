@@ -1,5 +1,6 @@
 ﻿using CommonLayer.models;
-using RepositoryLayer.Entity;
+using CommonLayer.Models;
+using RepositoryLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ namespace RepositoryLayer.interfaces
 {
     public interface IUserRL
     {
+
         public bool Registration(UserRegistration User);
 
         IEnumerable<User> GetUserRegistration();
@@ -17,6 +19,7 @@ namespace RepositoryLayer.interfaces
         public void Update(User AClient, User client);
         public void Delete(User client);
 
-        public UserLogin GetLoginData(UserLogin User1);
+        public UserLoginResponse GetLoginData(UserLogin User1);
+        //public UserLogin Authenticate(UserLogin user1);
     }
 }

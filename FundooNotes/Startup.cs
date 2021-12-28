@@ -20,6 +20,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using CommonLayer.models;
 
 namespace FundooNotes
 {
@@ -35,14 +37,42 @@ namespace FundooNotes
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IUserBL, UserBL>();
-            services.AddTransient<IUserRL, UserRL>();
+            services.AddScoped<IUserBL, UserBL>();
+            services.AddScoped<IUserRL, UserRL>();
+            
 
+            //var appSettingsSection = Configuration.GetSection("UserLogin");
+            //services.Configure<UserLogin>(appSettingsSection);
+
+            ////JWT Authentication
+            //var appSettings = appSettingsSection.Get<UserLogin>();
+            //var key = Encoding.ASCII.GetBytes(appSettings.Key);
+
+            //services.AddAuthentication(au =>
+            //{
+            //    au.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    au.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //}).AddJwtBearer(jwt =>
+            //{
+
+            //    jwt.RequireHttpsMetadata = false;
+            //    jwt.SaveToken = true;
+            //    jwt.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuerSigningKey = true,
+            //        IssuerSigningKey = new SymmetricSecurityKey(key),
+            //        ValidateIssuer = false,
+            //        ValidateAudience = false
+            //    };
+            //});
+            //services.AddTransient<IUserRL, UserRL>();
             services.AddDbContext<ucontext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:UserTable"]));
+            //services.AddDbContext<ucontext>(opts => opts.UseSqlServer(Configuration["UserLogin:Key"]));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FundooNotes", Version = "v1" });
+
             });
 
         }
@@ -63,7 +93,7 @@ namespace FundooNotes
 
             app.UseAuthorization();
 
-            app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {

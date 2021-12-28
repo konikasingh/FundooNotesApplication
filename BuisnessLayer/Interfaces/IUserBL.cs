@@ -1,5 +1,6 @@
 ﻿using CommonLayer.models;
-using RepositoryLayer.Entity;
+using CommonLayer.Models;
+using RepositoryLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +21,7 @@ namespace BuisnessLayer.interfaces
 
         public void Delete(User client);
 
-        public UserLogin GetLoginData(UserLogin User1);
+        public UserLoginResponse GetLoginData(UserLogin User1);
 
     }
 }

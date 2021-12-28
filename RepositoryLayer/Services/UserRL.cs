@@ -1,10 +1,15 @@
 ﻿using CommonLayer.models;
+using CommonLayer.Models;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using RepositoryLayer.Context;
-using RepositoryLayer.Entity;
+using RepositoryLayer.Entities;
 using RepositoryLayer.interfaces;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 
 namespace RepositoryLayer.Services
@@ -17,6 +22,18 @@ namespace RepositoryLayer.Services
         {
             this.context = context;
         }
+
+        private const string Key = "this is my sample key";
+
+        //readonly ucontext Context;
+        //private readonly UserLogin _appSettings;
+
+        //public string Key { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        //public UserRL(IOptions<UserLogin> appSettings)
+        //{
+        //    _appSettings = appSettings.Value;
+        //}
 
         /// <summary>
         /// Register the user (API) 
@@ -117,25 +134,75 @@ namespace RepositoryLayer.Services
         /// </summary>
         /// <param name="User1"></param>
         /// <returns></returns>
-        public UserLogin GetLoginData(UserLogin User1)
+        public UserLoginResponse GetLoginData(UserLogin User1)
         {
+            UserLoginResponse logResponse = new UserLoginResponse();
+            string token = "";
+
             try
             {
-                 var ValidLogin = this.context.UserTable.Where(X => X.EmailId == User1.EmailId && X.Password == User1.Password).FirstOrDefault();
-                 if(ValidLogin != null)
-                 {
-                    return User1;
-                 }
-                 else
-                 {
+                var ValidLogin = this.context.UserTable.Where(X => X.EmailId == User1.EmailId && X.Password == User1.Password).FirstOrDefault();
+                if (ValidLogin != null)
+                {
+                    token = GenerateJWTToken(ValidLogin.EmailId);
+                    logResponse.token = token;
+                    //return User1;
+                }
+                else
+                {
                     return null;
-                 }
+                }
 
             }
             catch (ArgumentException)
             {
                 throw;
             }
+            return logResponse;
         }
+
+        private string GenerateJWTToken(string EmailId)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key));
+            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+            var claims = new[] {
+            new Claim("EmailId",EmailId)
+            };
+            var token = new JwtSecurityToken("Konika", EmailId,
+              claims,
+              expires: DateTime.Now.AddMinutes(20),
+              signingCredentials: credentials);
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        //public UserLogin Authenticate(UserLogin User1)
+        //{
+
+
+        //    var ValidLogin = this.context.UserTable.Where(X => X.EmailId == User1.EmailId && X.Password == User1.Password).FirstOrDefault();
+        //    if (ValidLogin != null)
+        //    {
+        //        return User1;
+        //    }
+
+        //    var tokenHandler = new JwtSecurityTokenHandler();
+        //    var tokenKey = Encoding.ASCII.GetBytes(_appSettings.Key);
+        //    var tokenDescriptor = new SecurityTokenDescriptor
+        //    {
+        //        Subject = new System.Security.Claims.ClaimsIdentity(new Claim[]
+        //        {
+        //                new Claim(ClaimTypes.Name, User1.EmailId),
+        //                //new Claim(ClaimTypes.Name, User1.Password)
+        //        }),
+        //        Expires = DateTime.UtcNow.AddMinutes(15),
+        //        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
+        //    };
+        //    var token = tokenHandler.CreateToken(tokenDescriptor);
+        //    User1.Token = tokenHandler.WriteToken(token);
+
+        //    User1.Password = null;
+
+        //    return User1;
+
     }
 }

@@ -7,13 +7,14 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.IdentityModel.Logging;
-using RepositoryLayer.Entity;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using RepositoryLayer.Services;
 using RepositoryLayer.interfaces;
+using RepositoryLayer.Entities;
+using CommonLayer.Models;
 
 namespace FundooNotes.Controllers
 {
@@ -26,6 +27,16 @@ namespace FundooNotes.Controllers
         {
             this.bl = bl;      //bl is the parameter of IuserBL
         }
+
+        //public IUserRL _authenticateService;
+
+        //public UserController(IUserRL authenticateService)
+        //{
+        //    _authenticateService = authenticateService;
+        //}
+
+
+
 
         /// <summary>
         /// Registration of user using all credentials
@@ -150,14 +161,13 @@ namespace FundooNotes.Controllers
         /// </summary>
         /// <param name="user1"></param>
         /// <returns></returns>
-        [Authorize]
-        [AllowAnonymous]
         [HttpPost("LoginInfo")]
+
         public IActionResult GetLoginData(UserLogin user1)          
         {
             try
             {
-                UserLogin result = this.bl.GetLoginData(user1);
+                UserLoginResponse result = this.bl.GetLoginData(user1);
                 if (result == null)
                 {
                     return this.BadRequest(new { Success = false, message = "Registration Unsuccessful" });
@@ -165,13 +175,14 @@ namespace FundooNotes.Controllers
                 }
                 else
                 {
-                    return this.Ok(new { Success = true, message = "User Login Successfull" });
+                    return this.Ok(new { Success = true, message = "User Login Successfull", UserInfo = result });
                 }
             }
             catch (Exception ex)
             {
                 return this.BadRequest(new { success = false, message = ex.Message });
             }
+
         }
     }
 }

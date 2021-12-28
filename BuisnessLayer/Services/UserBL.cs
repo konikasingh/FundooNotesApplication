@@ -1,7 +1,9 @@
 ﻿using BuisnessLayer.interfaces;
 using CommonLayer.models;
-using RepositoryLayer.Entity;
+using CommonLayer.Models;
+using RepositoryLayer.Entities;
 using RepositoryLayer.interfaces;
+using RepositoryLayer.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,7 +74,7 @@ namespace BuisnessLayer.services
         }
 
 
-        public UserLogin GetLoginData(UserLogin User1)
+        public UserLoginResponse GetLoginData(UserLogin User1)
         {
             try
             {
@@ -85,3 +87,5 @@ namespace BuisnessLayer.services
         }
     }
 }
+    
+

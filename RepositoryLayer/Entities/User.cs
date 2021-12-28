@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RepositoryLayer.Entity
+namespace RepositoryLayer.Entities
 {
     public class User
     {
@@ -40,6 +40,8 @@ namespace RepositoryLayer.Entity
 
         [DataType(DataType.DateTime)]
         public DateTime? Modifiedat { get; set; }
+
+
 
     }
 }
