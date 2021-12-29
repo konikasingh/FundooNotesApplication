@@ -66,68 +66,7 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
-        /// <summary>
-        /// Getting details of user (API)
-        /// </summary>
-        /// <returns></returns>
-        public IEnumerable<User> GetUserRegistration()
-        {
-            return context.UserTable.ToList();
-        }
-        /// <summary>
-        /// Getting the data using ID
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public User GetWithId(long id)
-        {
-            try
-            {
-                return this.context.UserTable.FirstOrDefault(i => i.Id == id);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        /// <summary>
-        /// Update the user using id
-        /// </summary>
-        /// <param name="AClient"></param>
-        /// <param name="client"></param>
-        public void Update(User AClient, User client)
-        {
-            try
-            {
-                AClient.FirstName = client.FirstName;
-                AClient.LastName = client.LastName;
-                AClient.EmailId = client.EmailId;
-                AClient.Password = client.Password;
-                AClient.Modifiedat = client.Modifiedat;
-                this.context.SaveChanges();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        /// <summary>
-        /// Delete the user by using id
-        /// </summary>
-        /// <param name="client"></param>
-        public void Delete(User client)
-        {
-            try
-            {
-                this.context.UserTable.Remove(client);
-                this.context.SaveChanges();
-
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+        
 
         /// <summary>
         /// login of user with emailid and password

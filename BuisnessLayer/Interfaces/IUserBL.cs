@@ -12,16 +12,6 @@ namespace BuisnessLayer.interfaces
     public interface IUserBL
     {
         public bool Registration(UserRegistration user);
-
-        IEnumerable<User> GetUserRegistration();
-
-         public User GetWithId(long id);
-
-        public void Update(User AClient, User client);
-
-        public void Delete(User client);
-
         public UserLoginResponse GetLoginData(UserLogin User1);
-
     }
 }

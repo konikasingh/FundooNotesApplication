@@ -27,17 +27,6 @@ namespace FundooNotes.Controllers
         {
             this.bl = bl;      //bl is the parameter of IuserBL
         }
-
-        //public IUserRL _authenticateService;
-
-        //public UserController(IUserRL authenticateService)
-        //{
-        //    _authenticateService = authenticateService;
-        //}
-
-
-
-
         /// <summary>
         /// Registration of user using all credentials
         /// </summary>
@@ -61,101 +50,7 @@ namespace FundooNotes.Controllers
             {
                 return this.BadRequest(new { success = false, message = ex.Message });
             }
-        }
-        /// <summary>
-        /// Getting the data of all the registered user
-        /// </summary>
-        /// <returns></returns>
-
-        [HttpGet("GetAllUserData")]
-        public IActionResult GetAllUserData()
-        {
-            try
-            {
-                var userDetails = this.bl.GetUserRegistration();
-                if (userDetails != null)
-                {
-                    return this.Ok(new { Success = true, userInformation = userDetails });
-                }
-                else
-                {
-                    return this.BadRequest(new { Success = false, message = "No Users Are There: " });
-                }
-            }
-            catch (Exception ex)
-            {
-                return this.BadRequest(new { success = false, message = ex.Message });
-            }
-        }
-        /// <summary>
-        /// Search User With UserId
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpGet("GetWithId/{id}")]
-        public IActionResult GetWithId(long id)
-        {
-            try
-            {
-                User user = bl.GetWithId(id);
-                if (user == null)
-                {
-                    return BadRequest(new { Success = false, message = "No User With Particular Id " });
-                }
-                return Ok(new { Success = true, message = "User Available with Entered Id ", user });
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        /// <summary>
-        /// Update the particular user using userId
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        [HttpPut("UpdateId/{id}")]
-        public IActionResult Update(long id, [FromBody] User user)
-        {
-            try
-            {
-                User updateUser = bl.GetWithId(id);
-                if (updateUser == null)
-                {
-                    return BadRequest(new { Success = false, message = "No User are there with this Id" });
-                }
-                bl.Update(updateUser, user);
-                return Ok(new { Success = true, message = "Update Sucessful" });
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-        /// <summary>
-        /// Delete the user with uaing the UserId
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpDelete("DeleteWithId/{id}")]
-        public IActionResult Delete(long id)
-        {
-            try
-            {
-                User user = bl.GetWithId(id);
-                if (user == null)
-                {
-                    return BadRequest(new { Success = false, message = "User with entered id not found" });
-                }
-                bl.Delete(user);
-                return Ok(new { Success = true, message = "User Deleted From DataBase" });
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
+        }       
         /// <summary>
         /// Login of user using emailid and password
         /// </summary>
@@ -182,7 +77,6 @@ namespace FundooNotes.Controllers
             {
                 return this.BadRequest(new { success = false, message = ex.Message });
             }
-
         }
     }
 }

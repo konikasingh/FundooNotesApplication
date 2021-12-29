@@ -30,50 +30,6 @@ namespace BuisnessLayer.services
                 throw;
             }
         }
-
-        public IEnumerable<User> GetUserRegistration()
-        {
-            return this.UserRL.GetUserRegistration();
-        }
-
-        public void Update(User AClient, User client)
-        {
-            try
-            {
-                this.UserRL.Update(AClient, client);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-
-        public User GetWithId(long id)
-        {
-            try
-            {
-                return this.UserRL.GetWithId(id);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-        public void Delete(User client)
-        {
-            try
-            {
-                this.UserRL.Delete(client);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-        }
-
-
         public UserLoginResponse GetLoginData(UserLogin User1)
         {
             try
