@@ -22,6 +22,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using CommonLayer.models;
+using BuisnessLayer.Interfaces;
+using BuisnessLayer.Services;
+using RepositoryLayer.Interfaces;
 
 namespace FundooNotes
 {
@@ -39,40 +42,37 @@ namespace FundooNotes
         {
             services.AddScoped<IUserBL, UserBL>();
             services.AddScoped<IUserRL, UserRL>();
-            
-
-            //var appSettingsSection = Configuration.GetSection("UserLogin");
-            //services.Configure<UserLogin>(appSettingsSection);
-
-            ////JWT Authentication
-            //var appSettings = appSettingsSection.Get<UserLogin>();
-            //var key = Encoding.ASCII.GetBytes(appSettings.Key);
-
-            //services.AddAuthentication(au =>
-            //{
-            //    au.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    au.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //}).AddJwtBearer(jwt =>
-            //{
-
-            //    jwt.RequireHttpsMetadata = false;
-            //    jwt.SaveToken = true;
-            //    jwt.TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        ValidateIssuerSigningKey = true,
-            //        IssuerSigningKey = new SymmetricSecurityKey(key),
-            //        ValidateIssuer = false,
-            //        ValidateAudience = false
-            //    };
-            //});
-            //services.AddTransient<IUserRL, UserRL>();
+            services.AddTransient<INotesBL, NotesBL>();
+            services.AddTransient<INotesRL, NotesRL>();
             services.AddDbContext<ucontext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:UserTable"]));
-            //services.AddDbContext<ucontext>(opts => opts.UseSqlServer(Configuration["UserLogin:Key"]));
+            services.AddDbContext<ucontext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:NotesTable"]));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FundooNotes", Version = "v1" });
-
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "Authorization using JWTtoken"
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "bearerAuth"
+                            }
+                        },
+                        new string[] { }
+                    }
+                });
             });
 
         }

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RepositoryLayer.Context;
 
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(ucontext))]
-    partial class ucontextModelSnapshot : ModelSnapshot
+    [Migration("20211229154258_Initial3")]
+    partial class Initial3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,8 +67,6 @@ namespace RepositoryLayer.Migrations
 
                     b.HasKey("NotesId");
 
-                    b.HasIndex("Id");
-
                     b.ToTable("NotesTable");
                 });
 
@@ -103,15 +103,6 @@ namespace RepositoryLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserTable");
-                });
-
-            modelBuilder.Entity("RepositoryLayer.Entities.Notes", b =>
-                {
-                    b.HasOne("RepositoryLayer.Entities.User", "User")
-                        .WithMany("Notes")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

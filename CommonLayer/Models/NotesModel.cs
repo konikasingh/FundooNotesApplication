@@ -1,21 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RepositoryLayer.Entities
+namespace CommonLayer.Models
 {
-    public class Notes
+    public class NotesModel
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
+        public long Id { get; set; }
+
         public long NotesId { get; set; }
-       
-        
+
         [Required(ErrorMessage = "Title is required")]
         [DataType(DataType.Text)]
         [Display(Name = "Title:")]
@@ -44,20 +41,6 @@ namespace RepositoryLayer.Entities
         public bool IsArchive { get; set; }
 
         public bool IsPin { get; set; }
-        
-        public bool IsTrash { get; set; }
-
-        [DataType(DataType.DateTime)]
-        public DateTime? Createat { get; set; }
-
-        [DataType(DataType.DateTime)]
-        public DateTime? Modifiedat { get; set; }
-
-        public User User { get; set; }
-
-        [ForeignKey("User")]
-
-        public long Id { get; set; }
 
     }
 }

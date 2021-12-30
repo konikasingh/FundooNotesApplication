@@ -24,17 +24,7 @@ namespace RepositoryLayer.Services
         }
 
         private const string Key = "this is my sample key";
-
-        //readonly ucontext Context;
-        //private readonly UserLogin _appSettings;
-
-        //public string Key { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        //public UserRL(IOptions<UserLogin> appSettings)
-        //{
-        //    _appSettings = appSettings.Value;
-        //}
-
+        
         /// <summary>
         /// Register the user (API) 
         /// </summary>
