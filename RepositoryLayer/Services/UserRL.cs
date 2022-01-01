@@ -103,35 +103,5 @@ namespace RepositoryLayer.Services
               signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
-        //public UserLogin Authenticate(UserLogin User1)
-        //{
-
-
-        //    var ValidLogin = this.context.UserTable.Where(X => X.EmailId == User1.EmailId && X.Password == User1.Password).FirstOrDefault();
-        //    if (ValidLogin != null)
-        //    {
-        //        return User1;
-        //    }
-
-        //    var tokenHandler = new JwtSecurityTokenHandler();
-        //    var tokenKey = Encoding.ASCII.GetBytes(_appSettings.Key);
-        //    var tokenDescriptor = new SecurityTokenDescriptor
-        //    {
-        //        Subject = new System.Security.Claims.ClaimsIdentity(new Claim[]
-        //        {
-        //                new Claim(ClaimTypes.Name, User1.EmailId),
-        //                //new Claim(ClaimTypes.Name, User1.Password)
-        //        }),
-        //        Expires = DateTime.UtcNow.AddMinutes(15),
-        //        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256Signature)
-        //    };
-        //    var token = tokenHandler.CreateToken(tokenDescriptor);
-        //    User1.Token = tokenHandler.WriteToken(token);
-
-        //    User1.Password = null;
-
-        //    return User1;
-
     }
 }

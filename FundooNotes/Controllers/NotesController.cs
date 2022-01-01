@@ -1,5 +1,6 @@
 ﻿using BuisnessLayer.Interfaces;
 using CommonLayer.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RepositoryLayer.Entities;
@@ -16,7 +17,7 @@ namespace FundooNotes.Controllers
         {
             this.bl = bl;
         }
-        
+        [Authorize]
         [HttpPost]
         public IActionResult CreateNotes(NotesModel client)
         {
