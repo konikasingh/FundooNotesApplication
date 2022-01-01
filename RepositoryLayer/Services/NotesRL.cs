@@ -10,22 +10,25 @@ using System.Threading.Tasks;
 
 namespace RepositoryLayer.Services
 {
-    public class NotesRL : INotesRL
+    public class NotesRL : INotesRL //interface of notes class
     {
         ucontext context;
 
         public NotesRL(ucontext context)
         {
-            this.context = context;
+            this.context = context;  //created the context parameter of context class
         }
-
+        /// <summary>
+        /// It will create the note for the particular user
+        /// </summary>
+        /// <param name="client"></param>
+        /// <returns></returns>
         public bool CreateNotes(NotesModel client)
         {
             try
             {
                 Notes newNote = new Notes();
                 newNote.Id = client.Id;
-                newNote.NotesId = client.NotesId;
                 newNote.Title = client.Title;
                 newNote.Message = client.Message;
                 newNote.Remainder = client.Remainder;
@@ -50,12 +53,19 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
-        
+        /// <summary>
+        /// Get all details of notes which is in database
+        /// </summary>
+        /// <returns></returns>
         public IEnumerable<Notes> GetNotesDetail()
         {
             return context.NotesTable.ToList();
         }
-       
+       /// <summary>
+       /// Get the notes details with using id parameter
+       /// </summary>
+       /// <param name="id"></param>
+       /// <returns></returns>
         public Notes GetWithId(long id)
         {
             try
@@ -67,7 +77,11 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
-       
+       /// <summary>
+       /// Update the notes using the id parameter
+       /// </summary>
+       /// <param name="APerson"></param>
+       /// <param name="person"></param>
         public void UpdateNotes(Notes APerson, Notes person)
         {
             try
@@ -85,7 +99,10 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
-        
+       /// <summary>
+       /// Delete the particular notes using id
+       /// </summary>
+       /// <param name="person"></param>       
         public void DeleteNotes(Notes person)
         {
             try

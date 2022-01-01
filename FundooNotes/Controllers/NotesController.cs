@@ -17,7 +17,7 @@ namespace FundooNotes.Controllers
         {
             this.bl = bl;
         }
-        [Authorize]
+        [Authorize]            //It will authorize the post api of notes
         [HttpPost]
         public IActionResult CreateNotes(NotesModel client)
         {

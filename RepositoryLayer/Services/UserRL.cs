@@ -89,7 +89,11 @@ namespace RepositoryLayer.Services
             }
             return logResponse;
         }
-
+        /// <summary>
+        /// it will generate the token for particular user who login with valid emailid and password
+        /// </summary>
+        /// <param name="EmailId"></param>
+        /// <returns></returns>
         private string GenerateJWTToken(string EmailId)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key));
@@ -103,7 +107,11 @@ namespace RepositoryLayer.Services
               signingCredentials: credentials);
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
+        /// <summary>
+        /// it will encrypt the password field
+        /// </summary>
+        /// <param name="Password"></param>
+        /// <returns></returns>
         public string encryptpass(string Password)
         {
             string msg = "";
@@ -112,7 +120,11 @@ namespace RepositoryLayer.Services
             msg = Convert.ToBase64String(encode);
             return msg;
         }
-        
+        /// <summary>
+        /// it will decrypt the password field
+        /// </summary>
+        /// <param name="encryptpwd"></param>
+        /// <returns></returns>
         private string Decryptpass(string encryptpwd)
         {
             string decryptpwd = string.Empty;
