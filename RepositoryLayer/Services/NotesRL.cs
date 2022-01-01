@@ -60,7 +60,7 @@ namespace RepositoryLayer.Services
         {
             try
             {
-                return this.context.NotesTable.FirstOrDefault(i => i.Id == id);
+                return this.context.NotesTable.FirstOrDefault(i => i.NotesId == id);
             }
             catch (Exception)
             {
