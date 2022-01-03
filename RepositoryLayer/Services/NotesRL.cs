@@ -115,6 +115,6 @@ namespace RepositoryLayer.Services
             {
                 throw;
             }
-        }  
+        }
     }
 }

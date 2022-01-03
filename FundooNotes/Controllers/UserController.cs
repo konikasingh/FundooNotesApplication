@@ -66,6 +66,7 @@ namespace FundooNotes.Controllers
                 if (result == null)
                 {
                     return this.BadRequest(new { Success = false, message = "Registration Unsuccessful" });
+                   
 
                 }
                 else

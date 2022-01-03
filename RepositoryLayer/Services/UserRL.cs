@@ -42,7 +42,7 @@ namespace RepositoryLayer.Services
                 User newUser = new User();
                 newUser.FirstName = user.FirstName;
                 newUser.LastName = user.LastName;
-                newUser.Password = user.Password;
+                newUser.Password = encryptpass(user.Password);
                 newUser.EmailId = user.EmailId;
                 this.context.UserTable.Add(newUser);
 
@@ -75,12 +75,13 @@ namespace RepositoryLayer.Services
 
             try
             {
-                var ValidLogin = this.context.UserTable.Where(X => X.EmailId == User1.EmailId && X.Password == User1.Password).FirstOrDefault();
-                if (ValidLogin != null)
+                var ValidLogin = this.context.UserTable.Where(X => X.EmailId == User1.EmailId).FirstOrDefault();
+
+                if (Decryptpass(ValidLogin.Password) == User1.Password)
                 {
                     token = GenerateJWTToken(ValidLogin.EmailId);
                     logResponse.token = token;
-                    //return User1;
+                    return logResponse;
                 }
                 else
                 {
@@ -92,7 +93,7 @@ namespace RepositoryLayer.Services
             {
                 throw;
             }
-            return logResponse;
+            //return logResponse;
         }
         /// <summary>
         /// it will generate the token for particular user who login with valid emailid and password
@@ -117,12 +118,12 @@ namespace RepositoryLayer.Services
         /// </summary>
         /// <param name="Password"></param>
         /// <returns></returns>
-        public string encryptpass(string Password)
+        public static string encryptpass(string Password)
         {
-            string msg = "";
+
             byte[] encode = new byte[Password.Length];
             encode = Encoding.UTF8.GetBytes(Password);
-            msg = Convert.ToBase64String(encode);
+            string msg = Convert.ToBase64String(encode);
             return msg;
         }
         /// <summary>
@@ -177,17 +178,18 @@ namespace RepositoryLayer.Services
                             .SingleOrDefault(x => x.EmailId == email);
             if (userCheck != null)
             {
+                string Token = GenerateJWTToken(userCheck.EmailId);
                 user = linkToBeSend;
                 using (MailMessage mailMessage = new MailMessage("konikasingh1996@gmail.com", email))
                 {
-                    mailMessage.Subject = mailSubject;
-                    mailMessage.Body = user;
+                    mailMessage.Subject = mailSubject;                
+                    mailMessage.Body = Token;
                     mailMessage.IsBodyHtml = true;
                     SmtpClient Smtp = new SmtpClient();
                     Smtp.Host = "smtp.gmail.com";
                     Smtp.EnableSsl = true;
                     Smtp.UseDefaultCredentials = false;
-                    Smtp.Credentials = new NetworkCredential("konikasingh1996@gmail.com", "");
+                    Smtp.Credentials = new NetworkCredential("konikasingh1996@gmail.com", "Mahakaal@123");
                     Smtp.Port = 587;
                     Smtp.Send(mailMessage);
                 }
