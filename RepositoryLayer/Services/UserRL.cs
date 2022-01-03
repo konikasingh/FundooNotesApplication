@@ -1,5 +1,7 @@
 ﻿using CommonLayer.models;
 using CommonLayer.Models;
+using Experimental.System.Messaging;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using RepositoryLayer.Context;
@@ -9,8 +11,11 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
+
 
 namespace RepositoryLayer.Services
 {
@@ -136,6 +141,84 @@ namespace RepositoryLayer.Services
             Decode.GetChars(todecode_byte, 0, todecode_byte.Length, decoded_char, 0);
             decryptpwd = new String(decoded_char);
             return decryptpwd;
+        }
+
+        /// <summary>
+        /// Method to Implement Forgot password functionality.
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns>string message</returns>
+        public string ForgotPassword(string email)
+        {
+            var url = "Click on following link to reset the password for FundooNotes App: https://localhost:44354/User/api/ResetPassword.html";
+            MessageQueue msmqQueue = new MessageQueue();
+            if (MessageQueue.Exists(@".\Private$\MyQueue"))
+            {
+                msmqQueue = new MessageQueue(@".\Private$\MyQueue");
+            }
+            else
+            {
+                msmqQueue = MessageQueue.Create(@".\Private$\MyQueue");
+
+            }
+            Message message = new Message();
+            message.Formatter = new BinaryMessageFormatter();
+            message.Body = url;
+            msmqQueue.Label = "url link";
+            msmqQueue.Send(message);
+            var reciever = new MessageQueue(@".\Private$\MyQueue");
+            var recieving = reciever.Receive();
+            recieving.Formatter = new BinaryMessageFormatter();
+            string linkToBeSend = recieving.Body.ToString();
+
+            string user;
+            string mailSubject = "Link to reset your FundooNotes App Credentials";
+            var userCheck = this.context.UserTable
+                            .SingleOrDefault(x => x.EmailId == email);
+            if (userCheck != null)
+            {
+                user = linkToBeSend;
+                using (MailMessage mailMessage = new MailMessage("konikasingh1996@gmail.com", email))
+                {
+                    mailMessage.Subject = mailSubject;
+                    mailMessage.Body = user;
+                    mailMessage.IsBodyHtml = true;
+                    SmtpClient Smtp = new SmtpClient();
+                    Smtp.Host = "smtp.gmail.com";
+                    Smtp.EnableSsl = true;
+                    Smtp.UseDefaultCredentials = false;
+                    Smtp.Credentials = new NetworkCredential("konikasingh1996@gmail.com", "");
+                    Smtp.Port = 587;
+                    Smtp.Send(mailMessage);
+                }
+                return "Mail Sent Successfully !";
+            }
+            else
+            {
+                return "Error while sending mail !";
+            }
+        }
+
+        /// <summary>
+        /// Method to reset old user password with new one.
+        /// </summary>
+        /// <param name="resetPassword"></param>
+        /// <returns>string message</returns>
+        public string ResetPassword(ChangePasswordModel resetPassword)
+        {
+            var newPassword = this.context.UserTable
+                            .SingleOrDefault(x => x.EmailId == resetPassword.EmailId);
+            if (newPassword != null)
+            {
+                newPassword.Password = resetPassword.Password;
+                context.Entry(newPassword).State = EntityState.Modified;
+                context.SaveChanges();
+                return "Password Reset Successfull ! ";
+            }
+            else
+            {
+                return "Error While Resetting Password !";
+            }
         }
     }
 }

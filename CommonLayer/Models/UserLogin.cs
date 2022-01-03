@@ -20,13 +20,5 @@ namespace CommonLayer.models
         [StringLength(30, MinimumLength = 6, ErrorMessage = "Password contain six Character")]
         public string Password { get; set; }
 
-
-        //public string Key
-        //{
-        //    get;
-        //    set;
-        //}
-
-        //public readonly string Key = "this is my sample key";
     }
 }

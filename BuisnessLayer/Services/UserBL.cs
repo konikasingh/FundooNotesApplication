@@ -41,6 +41,23 @@ namespace BuisnessLayer.services
                 throw;
             }
         }
+        /// <summary>
+        /// Forgot password Method 
+        /// </summary>
+        /// <param name="email">user email</param>
+        /// <returns>string message</returns>
+        public string ForgotPassword(string email)
+        {
+           
+             string message = this.UserRL.ForgotPassword(email);
+             return message;
+        }
+
+        public string ResetPassword(ChangePasswordModel resetPassword)
+        {
+            string message = this.UserRL.ResetPassword(resetPassword);
+            return message;
+        }
     }
 }
     

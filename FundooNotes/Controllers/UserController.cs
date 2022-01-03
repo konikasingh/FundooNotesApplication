@@ -50,7 +50,7 @@ namespace FundooNotes.Controllers
             {
                 return this.BadRequest(new { success = false, message = ex.Message });
             }
-        }       
+        }
         /// <summary>
         /// Login of user using emailid and password
         /// </summary>
@@ -58,7 +58,7 @@ namespace FundooNotes.Controllers
         /// <returns></returns>
         [HttpPost("LoginInfo")]
 
-        public IActionResult GetLoginData(UserLogin user1)          
+        public IActionResult GetLoginData(UserLogin user1)
         {
             try
             {
@@ -76,6 +76,45 @@ namespace FundooNotes.Controllers
             catch (Exception ex)
             {
                 return this.BadRequest(new { success = false, message = ex.Message });
+            }
+        }
+        /// <summary>
+        /// Controller method for Forgot password method 
+        /// </summary>
+        /// <param name="email">user email</param>
+        /// <returns>Response from API</returns>
+        [HttpPost]
+        [Route("api/ForgotPassword")]
+        public IActionResult ForgotPassword(string email)
+        {
+            var result = this.bl.ForgotPassword(email);
+            if (result.Equals("Mail Sent Successfully !"))
+            {
+                return this.Ok(new { success = true, Message = "The link is send to the given email address to reset the password", Data = result });
+            }
+            else
+            {
+                return this.BadRequest(new { success = false, Message = "Unable to sent link to given email address. This Email doesn't exist in database." });
+            }
+        }
+
+        /// <summary>
+        /// Controller method for Reset password method
+        /// </summary>
+        /// <param name="resetPassword"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("api/ResetPassword")]
+        public IActionResult ResetPassword(ChangePasswordModel resetPassword)
+        {
+            var result = this.bl.ResetPassword(resetPassword);
+            if (result.Equals("Password Reset Successfull ! "))
+            {
+                return this.Ok(new { success = true, Message = "Password Reset Successfully", Data = result });
+            }
+            else
+            {
+                return this.BadRequest(new { success = false, Message = "Failed to Reset Password. This Email does not exis in database." });
             }
         }
     }
