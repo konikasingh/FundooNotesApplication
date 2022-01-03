@@ -61,11 +61,11 @@ namespace RepositoryLayer.Services
         {
             return context.NotesTable.ToList();
         }
-       /// <summary>
-       /// Get the notes details with using id parameter
-       /// </summary>
-       /// <param name="id"></param>
-       /// <returns></returns>
+        /// <summary>
+        /// Get the notes details with using id parameter
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Notes GetWithId(long id)
         {
             try
@@ -77,17 +77,17 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
-       /// <summary>
-       /// Update the notes using the id parameter
-       /// </summary>
-       /// <param name="APerson"></param>
-       /// <param name="person"></param>
+        /// <summary>
+        /// Update the notes using the id parameter
+        /// </summary>
+        /// <param name="APerson"></param>
+        /// <param name="person"></param>
         public void UpdateNotes(Notes APerson, Notes person)
         {
             try
             {
                 APerson.Title = person.Title;
-                APerson.Message = person.Message;               
+                APerson.Message = person.Message;
                 APerson.Color = person.Color;
                 APerson.Image = person.Image;
                 APerson.IsArchive = person.IsArchive;
@@ -99,10 +99,10 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
-       /// <summary>
-       /// Delete the particular notes using id
-       /// </summary>
-       /// <param name="person"></param>       
+        /// <summary>
+        /// Delete the particular notes using id
+        /// </summary>
+        /// <param name="person"></param>       
         public void DeleteNotes(Notes person)
         {
             try
@@ -165,6 +165,42 @@ namespace RepositoryLayer.Services
                     return message;
                 }
                 return message = "Note is unpinned by default.";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Method to Archive or unarchive the note
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <returns>string message</returns>
+        public string ArchiveOrUnArchiveNote(int id)
+        {
+            try
+            {
+                string message;
+                var note = this.context.NotesTable.FirstOrDefault(x => x.NotesId == id).IsArchive;
+                if (note == false)
+                {
+                    var archiveNote = this.context.NotesTable.FirstOrDefault(x => x.NotesId == id).IsArchive == true;
+                    var archiveThisNote = context.NotesTable.FirstOrDefault(u => u.NotesId == id);
+                    archiveThisNote.IsArchive = archiveNote;
+                    this.context.SaveChanges();
+                    message = "Note Archived";
+                    return message;
+                }
+                if (note == true)
+                {
+                    var unArchiveNote = this.context.NotesTable.FirstOrDefault(x => x.NotesId == id).IsArchive == false;
+                    var unArchiveThisNote = context.NotesTable.FirstOrDefault(u => u.NotesId == id);
+                    unArchiveThisNote.IsArchive = unArchiveNote;
+                    this.context.SaveChanges();
+                    message = "Note Unarchived";
+                    return message;
+                }
+                return message = "Unable to archive or unarchive note.";
             }
             catch (Exception ex)
             {

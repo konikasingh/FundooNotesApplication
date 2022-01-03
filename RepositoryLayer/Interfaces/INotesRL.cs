@@ -17,5 +17,6 @@ namespace RepositoryLayer.Interfaces
         public void DeleteNotes(Notes person);
         public IEnumerable<Notes> GetPinnedNote();
         public string PinOrUnpinNote(int id);
+        public string ArchiveOrUnArchiveNote(int id);
     }
 }

@@ -96,5 +96,17 @@ namespace BuisnessLayer.Services
                 throw new Exception(ex.Message);
             }
         }
+        public string ArchiveOrUnArchiveNote(int id)
+        {
+            try
+            {
+                var note = this.NotesRL.ArchiveOrUnArchiveNote(id);
+                return note;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
