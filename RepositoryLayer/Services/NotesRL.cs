@@ -1,4 +1,5 @@
 ﻿using CommonLayer.Models;
+using Microsoft.EntityFrameworkCore;
 using RepositoryLayer.Context;
 using RepositoryLayer.Entities;
 using RepositoryLayer.Interfaces;
@@ -247,37 +248,71 @@ namespace RepositoryLayer.Services
                 throw new Exception(ex.Message);
             }
         }
-        public string TrashOrUnTrashNote(int id)
+        /// <summary>
+        /// Method to Trash Or Restore Note
+        /// </summary>
+        /// <param name="id">int id</param>
+        /// <returns>string message</returns>
+        public string TrashOrRestoreNote(int id)
         {
             try
             {
                 string message;
-                var newNote = new Notes() { NotesId = id };
-                var note = this.context.NotesTable.FirstOrDefault(x => x.NotesId == id).IsTrash;
-                if (note == false)
+                var note = this.context.NotesTable.Where(x => x.NotesId == id).SingleOrDefault();
+                if (note != null)
                 {
-                    var trashNote = this.context.NotesTable.FirstOrDefault(x => x.NotesId == id).IsTrash == true;
-                    var trashThisNote = context.NotesTable.FirstOrDefault(u => u.NotesId == id);
-                    trashThisNote.IsTrash = trashNote;
-                    this.context.SaveChanges();
-                    message = "Note Trash";
-                    return message;
+                    if (note.IsTrash == false)
+                    {
+                        note.IsTrash = true;
+                        this.context.Entry(note).State = EntityState.Modified;
+                        this.context.SaveChanges();
+                        message = "Note Restored";
+                        return message;
+                    }
+                    if (note.IsTrash == true)
+                    {
+                        note.IsTrash = false;
+                        this.context.Entry(note).State = EntityState.Modified;
+                        this.context.SaveChanges();
+                        message = "Note Trashed";
+                        return message;
+                    }
                 }
-                if (note == true)
-                {
-                    var untrashNote = this.context.NotesTable.FirstOrDefault(x => x.NotesId == id).IsTrash == false;
-                    var untrashThisNote = context.NotesTable.FirstOrDefault(u => u.NotesId == id);
-                    untrashThisNote.IsTrash = untrashNote;
-                    this.context.SaveChanges();
-                    message = "Note UnTrash";
-                    return message;
-                }
-                return message = "Note is untrash by default.";
+
+                return message = "Unable to Restore or Trash note.";
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
-    }
+        /// <summary>
+        /// Method to add color for note
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <param name="color">color name</param>
+        /// <returns>string message</returns>
+        public string AddColor(long id, string color)
+        {
+            try
+            {
+                string message;
+                var note = this.context.NotesTable.Find(id);
+                if (note != null)
+                {
+                    note.Color = color;
+                    this.context.Entry(note).State = EntityState.Modified;
+                    this.context.SaveChanges();
+                    message = "Color added Successfully for note !";
+                    return message;
+                }
+
+                return message = "Error While adding color for this note";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+    }        
 }

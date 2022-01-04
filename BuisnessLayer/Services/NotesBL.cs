@@ -133,12 +133,24 @@ namespace BuisnessLayer.Services
                 throw new Exception(ex.Message);
             }
         }
-        public string TrashOrUnTrashNote(int id)
+        public string TrashOrRestoreNote(int id)
         {
             try
             {
-                var note = this.NotesRL.TrashOrUnTrashNote(id);
+                var note = this.NotesRL.TrashOrRestoreNote(id);
                 return note;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public string AddColor(long id, string color)
+        {
+            try
+            {
+                string message = this.NotesRL.AddColor(id, color);
+                return message;
             }
             catch (Exception ex)
             {

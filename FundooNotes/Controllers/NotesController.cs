@@ -235,23 +235,48 @@ namespace FundooNotes.Controllers
             }
         }
         /// <summary>
-        /// Controller Method call method UnarchiveNote() method to Unarchive the note
+        /// Controller method to Trash Or Restore a Note
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">note id</param>
+        /// <returns>string message</returns>
         [HttpPut]
-        [Route("TrashorUnTrashNote")]
-        public IActionResult TrashOrUnTrashNote(int id)
+        [Route("TrashOrRestoreNote")]
+        public IActionResult TrashOrRestoreNote(int id)
         {
             try
             {
-                var result = this.bl.TrashOrUnTrashNote(id);
+                var result = this.bl.TrashOrRestoreNote(id);
                 if (result != null)
                 {
                     return this.Ok(new { Status = true, Message = result, Data = result });
                 }
 
                 return this.BadRequest(new { Status = false, Message = result });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
+        /// <summary>
+        /// Controller method to add color for note
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <param name="color">color name</param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("addColor")]
+        public IActionResult ChangeColor(long id, string color)
+        {
+            try
+            {
+                var message = this.bl.AddColor(id, color);
+                if (message.Equals("New Color has set to this note !"))
+                {
+                    return this.Ok(new { Status = true, Message = message, Data = color });
+                }
+
+                return this.BadRequest(new { Status = true, Message = message });
             }
             catch (Exception ex)
             {

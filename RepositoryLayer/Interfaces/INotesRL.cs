@@ -20,6 +20,7 @@ namespace RepositoryLayer.Interfaces
         public string UnpinNote(int id);
         public string ArchiveNote(int id);
         public string UnarchiveNote(int id);
-        public string TrashOrUnTrashNote(int id);
+        public string TrashOrRestoreNote(int id);
+        public string AddColor(long id, string color);
     }
 }
