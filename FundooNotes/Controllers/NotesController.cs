@@ -121,12 +121,12 @@ namespace FundooNotes.Controllers
         /// <param name="id">note id</param>
         /// <returns>string message</returns>
         [HttpPut]
-        [Route("PinOrUnpinNote")]
-        public IActionResult PinOrUnpinNote(int id)
+        [Route("PinNote")]
+        public IActionResult PinNote(int id)
         {
             try
             {
-                var result = this.bl.PinOrUnpinNote(id);
+                var result = this.bl.PinNote(id);
                 if (result != null)
                 {
                     return this.Ok(new  { Status = true, Message = result, Data = result });
@@ -141,17 +141,42 @@ namespace FundooNotes.Controllers
         }
 
         /// <summary>
+        /// Controller Method call method PinOrUnpinNote() method to Pin Or unpin the note
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <returns>string message</returns>
+        [HttpPut]
+        [Route("UnpinNote")]
+        public IActionResult UnpinNote(int id)
+        {
+            try
+            {
+                var result = this.bl.UnpinNote(id);
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, Message = result, Data = result });
+                }
+
+                return this.BadRequest(new { Status = false, Message = result });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
+
+        /// <summary>
         /// Controller Method call method ArchiveOrUnArchiveNote() method to Archive Or Unarchive the note
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPut]
-        [Route("ArchiveOrUnArchiveNote")]
-        public IActionResult ArchiveOrUnarchive(int id)
+        [Route("ArchiveNote")]
+        public IActionResult ArchiveNote(int id)
         {
             try
             {
-                var result = this.bl.ArchiveOrUnArchiveNote(id);
+                var result = this.bl.ArchiveNote(id);
                 if (result != null)
                 {
                     return this.Ok(new  { Status = true, Message = result, Data = result });

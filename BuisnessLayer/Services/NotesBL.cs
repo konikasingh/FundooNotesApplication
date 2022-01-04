@@ -67,15 +67,28 @@ namespace BuisnessLayer.Services
                 throw;
             }
         }
-        /// <summary>
-        /// Method to call GetPinnedNote method from NotesRepository 
-        /// </summary>
-        /// <returns>pinned note</returns>
-        public IEnumerable<Notes> GetPinnedNote()
+        ///// <summary>
+        ///// Method to call GetPinnedNote method from NotesRepository 
+        ///// </summary>
+        ///// <returns>pinned note</returns>
+        //public IEnumerable<Notes> GetPinnedNote()
+        //{
+        //    try
+        //    {
+        //        IEnumerable<Notes> note = this.NotesRL.GetPinnedNote();
+        //        return note;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
+        //}
+
+        public string PinNote(int id)
         {
             try
             {
-                IEnumerable<Notes> note = this.NotesRL.GetPinnedNote();
+                var note = this.NotesRL.PinNote(id);
                 return note;
             }
             catch (Exception ex)
@@ -84,11 +97,11 @@ namespace BuisnessLayer.Services
             }
         }
 
-        public string PinOrUnpinNote(int id)
+        public string UnpinNote(int id)
         {
             try
             {
-                var note = this.NotesRL.PinOrUnpinNote(id);
+                var note = this.NotesRL.UnpinNote(id);
                 return note;
             }
             catch (Exception ex)
@@ -96,11 +109,11 @@ namespace BuisnessLayer.Services
                 throw new Exception(ex.Message);
             }
         }
-        public string ArchiveOrUnArchiveNote(int id)
+        public string ArchiveNote(int id)
         {
             try
             {
-                var note = this.NotesRL.ArchiveOrUnArchiveNote(id);
+                var note = this.NotesRL.ArchiveNote(id);
                 return note;
             }
             catch (Exception ex)
@@ -108,5 +121,17 @@ namespace BuisnessLayer.Services
                 throw new Exception(ex.Message);
             }
         }
+        //public string ArchiveNote(int id)
+        //{
+        //    try
+        //    {
+        //        var note = this.NotesRL.ArchiveNote(id);
+        //        return note;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
+        //}
     }
 }
