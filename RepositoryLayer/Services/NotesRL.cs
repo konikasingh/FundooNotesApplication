@@ -219,34 +219,65 @@ namespace RepositoryLayer.Services
                 throw new Exception(ex.Message);
             }
         }
-
-            /// <summary>
-            /// Method to Archive or unarchive the note
-            /// </summary>
-            /// <param name="id">note id</param>
-            /// <returns>string message</returns>
-            public string UnarchiveNote(int id)
+        /// <summary>
+        /// Method to Archive or unarchive the note
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <returns>string message</returns>
+        public string UnarchiveNote(int id)
+        {
+            try
             {
-                try
+                string message;
+                var note = this.context.NotesTable.FirstOrDefault(x => x.NotesId == id).IsArchive;
+                if (note == true)
                 {
-                    string message;
-                    var note = this.context.NotesTable.FirstOrDefault(x => x.NotesId == id).IsArchive;
-                    if (note == false)
-                    {
-                        var unarchiveNote = this.context.NotesTable.FirstOrDefault(x => x.NotesId == id).IsArchive == true;
-                        var unarchiveThisNote = context.NotesTable.FirstOrDefault(u => u.NotesId == id);
-                        unarchiveThisNote.IsArchive = unarchiveNote;
-                        this.context.SaveChanges();
-                        message = "Note Unarchived";
-                        return message;
-                    }
+                    var unarchiveNote = this.context.NotesTable.FirstOrDefault(x => x.NotesId == id).IsArchive == false;
+                    var unarchiveThisNote = context.NotesTable.FirstOrDefault(u => u.NotesId == id);
+                    unarchiveThisNote.IsArchive = unarchiveNote;
+                    this.context.SaveChanges();
+                    message = "Note Unarchived";
+                    return message;
+                }
 
-                    return message = "Unable to unarchive note.";
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception(ex.Message);
-                }
+                return message = "Unable to unarchive note.";
             }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public string TrashOrUnTrashNote(int id)
+        {
+            try
+            {
+                string message;
+                var newNote = new Notes() { NotesId = id };
+                var note = this.context.NotesTable.FirstOrDefault(x => x.NotesId == id).IsTrash;
+                if (note == false)
+                {
+                    var trashNote = this.context.NotesTable.FirstOrDefault(x => x.NotesId == id).IsTrash == true;
+                    var trashThisNote = context.NotesTable.FirstOrDefault(u => u.NotesId == id);
+                    trashThisNote.IsTrash = trashNote;
+                    this.context.SaveChanges();
+                    message = "Note Trash";
+                    return message;
+                }
+                if (note == true)
+                {
+                    var untrashNote = this.context.NotesTable.FirstOrDefault(x => x.NotesId == id).IsTrash == false;
+                    var untrashThisNote = context.NotesTable.FirstOrDefault(u => u.NotesId == id);
+                    untrashThisNote.IsTrash = untrashNote;
+                    this.context.SaveChanges();
+                    message = "Note UnTrash";
+                    return message;
+                }
+                return message = "Note is untrash by default.";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

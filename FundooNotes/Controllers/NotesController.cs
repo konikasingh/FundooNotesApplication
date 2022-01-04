@@ -234,5 +234,29 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
+        /// <summary>
+        /// Controller Method call method UnarchiveNote() method to Unarchive the note
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("TrashorUnTrashNote")]
+        public IActionResult TrashOrUnTrashNote(int id)
+        {
+            try
+            {
+                var result = this.bl.TrashOrUnTrashNote(id);
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, Message = result, Data = result });
+                }
+
+                return this.BadRequest(new { Status = false, Message = result });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

@@ -189,7 +189,7 @@ namespace RepositoryLayer.Services
                     Smtp.Host = "smtp.gmail.com";
                     Smtp.EnableSsl = true;
                     Smtp.UseDefaultCredentials = false;
-                    Smtp.Credentials = new NetworkCredential("konikasingh1996@gmail.com", "Mahakaal@123");
+                    Smtp.Credentials = new NetworkCredential("konikasingh1996@gmail.com", "MahashivratriKonika@1996");
                     Smtp.Port = 587;
                     Smtp.Send(mailMessage);
                 }

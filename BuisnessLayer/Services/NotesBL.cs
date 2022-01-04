@@ -133,5 +133,17 @@ namespace BuisnessLayer.Services
                 throw new Exception(ex.Message);
             }
         }
+        public string TrashOrUnTrashNote(int id)
+        {
+            try
+            {
+                var note = this.NotesRL.TrashOrUnTrashNote(id);
+                return note;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
