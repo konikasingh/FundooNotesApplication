@@ -19,5 +19,6 @@ namespace BuisnessLayer.Interfaces
         public string PinNote(int id);
         public string UnpinNote(int id);
         public string ArchiveNote(int id);
+        public string UnarchiveNote(int id);
     }
 }

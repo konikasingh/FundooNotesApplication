@@ -121,17 +121,17 @@ namespace BuisnessLayer.Services
                 throw new Exception(ex.Message);
             }
         }
-        //public string ArchiveNote(int id)
-        //{
-        //    try
-        //    {
-        //        var note = this.NotesRL.ArchiveNote(id);
-        //        return note;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message);
-        //    }
-        //}
+        public string UnarchiveNote(int id)
+        {
+            try
+            {
+                var note = this.NotesRL.UnarchiveNote(id);
+                return note;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

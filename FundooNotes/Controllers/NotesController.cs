@@ -17,6 +17,11 @@ namespace FundooNotes.Controllers
         {
             this.bl = bl;
         }
+        /// <summary>
+        /// Controller Method call method CreateNote() method to Create the note
+        /// </summary>
+        /// <param name="client">note id</param>
+        /// <returns>message</returns>
         [Authorize]            //It will authorize the post api of notes
         [HttpPost]
         public IActionResult CreateNotes(NotesModel client)
@@ -37,8 +42,12 @@ namespace FundooNotes.Controllers
                 return this.BadRequest(new { success = false, message = ex.Message });
             }
         }
-        
 
+        /// <summary>
+        /// Controller Method call method GetAllNote() method to Get the note
+        /// </summary>
+        /// <param name="">note id</param>
+        /// <returns>string message</returns>
         [HttpGet("GetAllNotesData")]
         public IActionResult GetNotesDetail()
         {
@@ -59,7 +68,11 @@ namespace FundooNotes.Controllers
                 return this.BadRequest(new { success = false, message = ex.Message });
             }
         }
-        
+        /// <summary>
+        /// Controller Method call method GetWithId() method to Get the note
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <returns>message</returns>
         [HttpGet("GetWithId/{id}")]
         public IActionResult GetWithId(long id)
         {
@@ -77,7 +90,11 @@ namespace FundooNotes.Controllers
                 throw;
             }
         }
-       
+        /// <summary>
+        /// Controller Method call method UpdateNote() method to Update the note
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <returns>message</returns>
         [HttpPut("UpdateId/{id}")]
         public IActionResult UpdateNotes(long id, Notes note)
         {
@@ -96,7 +113,11 @@ namespace FundooNotes.Controllers
                 throw;
             }
         }
-       
+        /// <summary>
+        /// Controller Method call method DeleteNote() method to Delete the note
+        /// </summary>
+        /// <param name="id">note id</param>
+        /// <returns>string message</returns>
         [HttpDelete("DeleteWithId/{id}")]
         public IActionResult DeleteNotes(long id)
         {
@@ -116,7 +137,7 @@ namespace FundooNotes.Controllers
             }
         }
         /// <summary>
-        /// Controller Method call method PinOrUnpinNote() method to Pin Or unpin the note
+        /// Controller Method call method PinNote() method to Pin the note
         /// </summary>
         /// <param name="id">note id</param>
         /// <returns>string message</returns>
@@ -141,7 +162,7 @@ namespace FundooNotes.Controllers
         }
 
         /// <summary>
-        /// Controller Method call method PinOrUnpinNote() method to Pin Or unpin the note
+        /// Controller Method call method UnpinNote() method to unpin the note
         /// </summary>
         /// <param name="id">note id</param>
         /// <returns>string message</returns>
@@ -166,7 +187,7 @@ namespace FundooNotes.Controllers
         }
 
         /// <summary>
-        /// Controller Method call method ArchiveOrUnArchiveNote() method to Archive Or Unarchive the note
+        /// Controller Method call method ArchiveNote() method to Archive  the note
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -187,6 +208,30 @@ namespace FundooNotes.Controllers
             catch (Exception ex)
             {
                 return this.NotFound(new  { Status = false, Message = ex.Message });
+            }
+        }
+        /// <summary>
+        /// Controller Method call method UnarchiveNote() method to Unarchive the note
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Route("UnarchiveNote")]
+        public IActionResult UnarchiveNote(int id)
+        {
+            try
+            {
+                var result = this.bl.UnarchiveNote(id);
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, Message = result, Data = result });
+                }
+
+                return this.BadRequest(new { Status = false, Message = result });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
     }
