@@ -79,7 +79,7 @@ namespace RepositoryLayer.Services
 
                 if (Decryptpass(ValidLogin.Password) == User1.Password)
                 {
-                    token = GenerateJWTToken(ValidLogin.EmailId);
+                    token = GenerateJWTToken(ValidLogin.EmailId, ValidLogin.Id);
                     logResponse.token = token;
                     return logResponse;
                 }
@@ -100,12 +100,13 @@ namespace RepositoryLayer.Services
         /// </summary>
         /// <param name="EmailId"></param>
         /// <returns></returns>
-        private string GenerateJWTToken(string EmailId)
+        private string GenerateJWTToken(string EmailId,long Id)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claims = new[] {
-            new Claim("EmailId",EmailId)
+            new Claim("EmailId",EmailId),
+            new Claim("Id",Id.ToString())
             };
             var token = new JwtSecurityToken("Konika", EmailId,
               claims,
@@ -178,7 +179,7 @@ namespace RepositoryLayer.Services
                             .SingleOrDefault(x => x.EmailId == email);
             if (userCheck != null)
             {
-                string Token = GenerateJWTToken(userCheck.EmailId);
+                string Token = GenerateJWTToken(userCheck.EmailId, userCheck.Id);
                 user = linkToBeSend;
                 using (MailMessage mailMessage = new MailMessage("konikasingh1996@gmail.com", email))
                 {
@@ -189,7 +190,7 @@ namespace RepositoryLayer.Services
                     Smtp.Host = "smtp.gmail.com";
                     Smtp.EnableSsl = true;
                     Smtp.UseDefaultCredentials = false;
-                    Smtp.Credentials = new NetworkCredential("konikasingh1996@gmail.com", "MahashivratriKonika@1996");
+                    Smtp.Credentials = new NetworkCredential("ktesting827@gmail.com", "Testing@123");
                     Smtp.Port = 587;
                     Smtp.Send(mailMessage);
                 }
@@ -206,14 +207,13 @@ namespace RepositoryLayer.Services
         /// </summary>
         /// <param name="resetPassword"></param>
         /// <returns>string message</returns>
-        public string ResetPassword(ChangePasswordModel resetPassword)
+        public string ResetPassword(ChangePasswordModel resetPassword, string emailid)
         {
-            var newPassword = this.context.UserTable
-                            .SingleOrDefault(x => x.EmailId == resetPassword.EmailId);
-            if (newPassword != null)
+            var newPassword = this.context.UserTable.SingleOrDefault(x => x.EmailId == emailid);
+            if (newPassword != null && resetPassword.NewPassword == resetPassword.ConfirmPassword)
             {
-                newPassword.Password = resetPassword.Password;
-                context.Entry(newPassword).State = EntityState.Modified;
+                newPassword.Password = encryptpass(resetPassword.NewPassword);
+                //context.Entry(newPassword).State = EntityState.Modified;
                 context.SaveChanges();
                 return "Password Reset Successfull ! ";
             }

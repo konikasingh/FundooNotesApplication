@@ -106,9 +106,9 @@ namespace FundooNotes.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("api/ResetPassword")]
-        public IActionResult ResetPassword(ChangePasswordModel resetPassword)
+        public IActionResult ResetPassword(ChangePasswordModel resetPassword , string emailid)
         {
-            var result = this.bl.ResetPassword(resetPassword);
+            var result = this.bl.ResetPassword(resetPassword,emailid);
             if (result.Equals("Password Reset Successfull ! "))
             {
                 return this.Ok(new { success = true, Message = "Password Reset Successfully", Data = result });

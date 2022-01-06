@@ -24,12 +24,12 @@ namespace RepositoryLayer.Services
         /// </summary>
         /// <param name="client"></param>
         /// <returns></returns>
-        public bool CreateNotes(NotesModel client)
+        public bool CreateNotes(NotesModel client, long tokenId)
         {
             try
             {
                 Notes newNote = new Notes();
-                newNote.Id = client.Id;
+                newNote.Id = tokenId;
                 newNote.Title = client.Title;
                 newNote.Message = client.Message;
                 newNote.Remainder = client.Remainder;
@@ -37,6 +37,9 @@ namespace RepositoryLayer.Services
                 newNote.Image = client.Image;
                 newNote.IsArchive = client.IsArchive;
                 newNote.IsPin = client.IsPin;
+                newNote.IsTrash = client.IsTrash;
+                newNote.Createat = client.Createat;
+                newNote.Modifiedat = client.Modifiedat;
                 this.context.NotesTable.Add(newNote);
 
                 int result = this.context.SaveChanges();
@@ -117,24 +120,6 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
-        ///// <summary>
-        ///// Method implementation to get pinned note
-        ///// </summary>
-        ///// <returns>pinned note</returns>
-        //public IEnumerable<Notes> GetPinnedNote()
-        //{
-        //    try
-        //    {
-        //        IEnumerable<Notes> result;
-        //        var note = this.context.NotesTable.Where(x => x.IsPin == true);
-        //        result = note;
-        //        return result;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message);
-        //    }
-        //}
         /// <summary>
         /// Method to Pin Or Unpin the Note 
         /// </summary>
@@ -314,5 +299,6 @@ namespace RepositoryLayer.Services
                 throw new Exception(ex.Message);
             }
         }
+        
     }        
 }

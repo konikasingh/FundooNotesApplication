@@ -53,9 +53,9 @@ namespace BuisnessLayer.services
              return message;
         }
 
-        public string ResetPassword(ChangePasswordModel resetPassword)
+        public string ResetPassword(ChangePasswordModel resetPassword, string emailid)
         {
-            string message = this.UserRL.ResetPassword(resetPassword);
+            string message = this.UserRL.ResetPassword(resetPassword,emailid);
             return message;
         }
     }

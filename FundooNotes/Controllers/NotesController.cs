@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RepositoryLayer.Entities;
 using System;
+using System.Linq;
 
 namespace FundooNotes.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class NotesController : ControllerBase
@@ -22,13 +24,14 @@ namespace FundooNotes.Controllers
         /// </summary>
         /// <param name="client">note id</param>
         /// <returns>message</returns>
-        [Authorize]            //It will authorize the post api of notes
+                  
         [HttpPost]
         public IActionResult CreateNotes(NotesModel client)
         {
             try
             {
-                if (this.bl.CreateNotes(client))
+                long tokenId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                if (this.bl.CreateNotes(client, tokenId))
                 {
                     return this.Ok(new { Success = true, message = "Note Created" });
                 }
@@ -53,6 +56,7 @@ namespace FundooNotes.Controllers
         {
             try
             {
+                long tokenId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
                 var notesDetails = this.bl.GetNotesDetail();
                 if (notesDetails != null)
                 {
@@ -78,6 +82,7 @@ namespace FundooNotes.Controllers
         {
             try
             {
+                long tokenId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
                 Notes note = bl.GetWithId(id);
                 if (note == null)
                 {
@@ -100,6 +105,7 @@ namespace FundooNotes.Controllers
         {
             try
             {
+                long tokenId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
                 Notes updateNotes = bl.GetWithId(id);
                 if (updateNotes == null)
                 {
@@ -123,6 +129,7 @@ namespace FundooNotes.Controllers
         {
             try
             {
+                long tokenId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
                 Notes note = bl.GetWithId(id);
                 if (note == null)
                 {
@@ -147,6 +154,7 @@ namespace FundooNotes.Controllers
         {
             try
             {
+                long tokenId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
                 var result = this.bl.PinNote(id);
                 if (result != null)
                 {
@@ -172,6 +180,7 @@ namespace FundooNotes.Controllers
         {
             try
             {
+                long tokenId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
                 var result = this.bl.UnpinNote(id);
                 if (result != null)
                 {
@@ -197,6 +206,7 @@ namespace FundooNotes.Controllers
         {
             try
             {
+                long tokenId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
                 var result = this.bl.ArchiveNote(id);
                 if (result != null)
                 {
@@ -245,6 +255,7 @@ namespace FundooNotes.Controllers
         {
             try
             {
+                long tokenId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
                 var result = this.bl.TrashOrRestoreNote(id);
                 if (result != null)
                 {
@@ -270,6 +281,7 @@ namespace FundooNotes.Controllers
         {
             try
             {
+                long tokenId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
                 var message = this.bl.AddColor(id, color);
                 if (message.Equals("New Color has set to this note !"))
                 {
@@ -283,5 +295,7 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
+        
+
     }
 }

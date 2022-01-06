@@ -10,12 +10,11 @@ namespace BuisnessLayer.Interfaces
 {
     public interface INotesBL 
     {
-        public bool CreateNotes(NotesModel client);
+        public bool CreateNotes(NotesModel client, long tokenId);
         public IEnumerable<Notes> GetNotesDetail();
         public Notes GetWithId(long id);
         public void UpdateNotes(Notes APerson, Notes person);
         public void DeleteNotes(Notes person);
-        //public IEnumerable<Notes> GetPinnedNote();
         public string PinNote(int id);
         public string UnpinNote(int id);
         public string ArchiveNote(int id);

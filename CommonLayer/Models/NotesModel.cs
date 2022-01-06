@@ -41,6 +41,13 @@ namespace CommonLayer.Models
         public bool IsArchive { get; set; }
 
         public bool IsPin { get; set; }
+        public bool IsTrash { get; set; }
+
+        [DataType(DataType.DateTime)]
+        public DateTime? Createat { get; set; }
+
+        [DataType(DataType.DateTime)]
+        public DateTime? Modifiedat { get; set; }
 
     }
 }

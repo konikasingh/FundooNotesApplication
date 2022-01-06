@@ -9,12 +9,6 @@ namespace CommonLayer.Models
 {
     public class ChangePasswordModel
     {
-        [Required(ErrorMessage = "Email is required")]
-        public string EmailId { get; set; }
-
-        [Required(ErrorMessage = "Password is required")]
-        public string Password { get; set; }
-
         [Required(ErrorMessage = "NewPassword is required")]
         public string NewPassword { get; set; }
 

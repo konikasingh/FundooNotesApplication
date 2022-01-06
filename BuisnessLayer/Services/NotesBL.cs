@@ -17,11 +17,11 @@ namespace BuisnessLayer.Services
         {
             this.NotesRL = userRL;
         }
-        public bool CreateNotes(NotesModel client)
+        public bool CreateNotes(NotesModel client, long tokenId)
         {
             try
             {
-                return this.NotesRL.CreateNotes(client);
+                return this.NotesRL.CreateNotes(client, tokenId);
             }
             catch (Exception)
             {
@@ -67,23 +67,7 @@ namespace BuisnessLayer.Services
                 throw;
             }
         }
-        ///// <summary>
-        ///// Method to call GetPinnedNote method from NotesRepository 
-        ///// </summary>
-        ///// <returns>pinned note</returns>
-        //public IEnumerable<Notes> GetPinnedNote()
-        //{
-        //    try
-        //    {
-        //        IEnumerable<Notes> note = this.NotesRL.GetPinnedNote();
-        //        return note;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message);
-        //    }
-        //}
-
+       
         public string PinNote(int id)
         {
             try
