@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RepositoryLayer.Interfaces
 {
-    internal interface ICollaboratorRL
+    public interface ICollaboratorRL
     {
     }
 }

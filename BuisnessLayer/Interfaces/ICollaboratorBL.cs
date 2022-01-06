@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BuisnessLayer.Interfaces
 {
-    internal interface ICollaboratorBL
+    public interface ICollaboratorBL
     {
     }
 }

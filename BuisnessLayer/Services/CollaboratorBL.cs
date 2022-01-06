@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BuisnessLayer.Services
 {
-    internal class CollaboratorBL
+    public class CollaboratorBL
     {
     }
 }
