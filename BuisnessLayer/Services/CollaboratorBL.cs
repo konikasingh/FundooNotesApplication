@@ -21,5 +21,10 @@ namespace BuisnessLayer.Services
             string message = this.CollaboratorRL.AddCollaborator(collaborator);
             return message;
         }
+        public string DeleteCollaborator(long id)
+        {
+            string message = this.CollaboratorRL.DeleteCollaborator(id);
+            return message;
+        }
     }
 }

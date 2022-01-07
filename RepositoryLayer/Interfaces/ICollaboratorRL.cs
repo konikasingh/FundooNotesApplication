@@ -10,5 +10,6 @@ namespace RepositoryLayer.Interfaces
     public interface ICollaboratorRL
     {
         public string AddCollaborator(CollaboratorModel collaborators);
+        public string DeleteCollaborator(long id);
     }
 }

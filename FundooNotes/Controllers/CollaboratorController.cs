@@ -33,5 +33,24 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new { Status = false, Message = ex.Message });
             }
         }
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult RemoveCollaborator(long id)
+        {
+            try
+            {
+                var message = this.bl.DeleteCollaborator(id);
+                if (message.Equals("Collaborator Deleted Successfully !"))
+                {
+                    return this.Ok(new { Status = true, Message = message, Data = id });
+                }
+
+                return this.BadRequest(new { Status = false, Message = message });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

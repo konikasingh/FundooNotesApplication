@@ -51,5 +51,29 @@ namespace RepositoryLayer.Services
                 throw new Exception(ex.Message);
             }
         }
+        /// <summary>
+        /// Method to Remove collaborator
+        /// </summary>
+        /// <param name="id">collaborator id</param>
+        /// <returns>string message</returns>
+        public string DeleteCollaborator(long id)
+        {
+            try
+            {
+                var collaborator = this.context.CollaborateTable.Find(id);
+                if (collaborator != null)
+                {
+                    this.context.CollaborateTable.Remove(collaborator);
+                    this.context.SaveChangesAsync();
+                    return "Collaborator Deleted Successfully !";
+                }
+
+                return "Unable to delete this Collaborator.";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

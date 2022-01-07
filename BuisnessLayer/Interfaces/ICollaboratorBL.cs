@@ -10,5 +10,6 @@ namespace BuisnessLayer.Interfaces
     public interface ICollaboratorBL
     {
         public string AddCollaborator(CollaboratorModel collaborators);
+        public string DeleteCollaborator(long id);
     }
 }
