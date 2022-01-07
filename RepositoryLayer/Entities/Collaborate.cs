@@ -28,7 +28,7 @@ namespace RepositoryLayer.Entities
         public Notes Notes { get; set; }
 
         [ForeignKey("Notes")]
-
         public long NotesId { get; set; }
+       
     }
 }

@@ -77,7 +77,7 @@ namespace FundooNotes.Controllers
         /// </summary>
         /// <param name="id">note id</param>
         /// <returns>message</returns>
-        [HttpGet("GetWithId/{id}")]
+        [HttpGet("GetWithId")]
         public IActionResult GetWithId(long id)
         {
             try
@@ -100,7 +100,7 @@ namespace FundooNotes.Controllers
         /// </summary>
         /// <param name="id">note id</param>
         /// <returns>message</returns>
-        [HttpPut("UpdateId/{id}")]
+        [HttpPut("UpdateId")]
         public IActionResult UpdateNotes(long id, Notes note)
         {
             try
@@ -124,7 +124,7 @@ namespace FundooNotes.Controllers
         /// </summary>
         /// <param name="id">note id</param>
         /// <returns>string message</returns>
-        [HttpDelete("DeleteWithId/{id}")]
+        [HttpDelete("DeleteWithId")]
         public IActionResult DeleteNotes(long id)
         {
             try

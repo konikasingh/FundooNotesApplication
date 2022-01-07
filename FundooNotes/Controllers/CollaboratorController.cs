@@ -15,6 +15,11 @@ namespace FundooNotes.Controllers
         {
             this.bl = bl;
         }
+        /// <summary>
+        /// Added the collaborator
+        /// </summary>
+        /// <param name="collaboraters"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult AddCollaborator(CollaboratorModel collaboraters)
         {
@@ -46,6 +51,24 @@ namespace FundooNotes.Controllers
                 }
 
                 return this.BadRequest(new { Status = false, Message = message });
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new { Status = false, Message = ex.Message });
+            }
+        }
+        [HttpGet]
+        public IActionResult RetrieveAllCollaborator()
+        {
+            try
+            {
+                var result = this.bl.GetCollaborators();
+                if (result != null)
+                {
+                    return this.Ok(new { Status = true, Message = "Collaborators Retrieved Successfully !", Data = result });
+                }
+
+                return this.BadRequest(new { Status = false, Message = "Unable to retrieve Collaborators" });
             }
             catch (Exception ex)
             {

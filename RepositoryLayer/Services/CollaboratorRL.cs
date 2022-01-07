@@ -75,5 +75,13 @@ namespace RepositoryLayer.Services
                 throw new Exception(ex.Message);
             }
         }
+        /// <summary>
+        /// Method to Retrieve All collaborators
+        /// </summary>
+        /// <returns>existing collaborators</returns>
+        public IEnumerable<Collaborate> GetCollaborators()
+        {
+                return context.CollaborateTable.ToList();
+        }
     }
 }

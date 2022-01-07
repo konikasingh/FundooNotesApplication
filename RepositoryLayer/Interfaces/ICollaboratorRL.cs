@@ -1,4 +1,5 @@
 ﻿using CommonLayer.Models;
+using RepositoryLayer.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace RepositoryLayer.Interfaces
     {
         public string AddCollaborator(CollaboratorModel collaborators);
         public string DeleteCollaborator(long id);
+        public IEnumerable<Collaborate> GetCollaborators();
     }
 }

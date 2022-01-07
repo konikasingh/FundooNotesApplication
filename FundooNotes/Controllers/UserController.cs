@@ -85,7 +85,7 @@ namespace FundooNotes.Controllers
         /// <param name="email">user email</param>
         /// <returns>Response from API</returns>
         [HttpPost]
-        [Route("api/ForgotPassword")]
+        [Route("ForgotPassword")]
         public IActionResult ForgotPassword(string email)
         {
             var result = this.bl.ForgotPassword(email);
@@ -105,7 +105,7 @@ namespace FundooNotes.Controllers
         /// <param name="resetPassword"></param>
         /// <returns></returns>
         [HttpPut]
-        [Route("api/ResetPassword")]
+        [Route("ResetPassword")]
         public IActionResult ResetPassword(ChangePasswordModel resetPassword , string emailid)
         {
             var result = this.bl.ResetPassword(resetPassword,emailid);

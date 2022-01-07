@@ -39,9 +39,10 @@ namespace RepositoryLayer.Entities
         public DateTime? CreateAt { get; set; }
 
         [DataType(DataType.DateTime)]
-        public DateTime? ModifiedAt { get; set; }
+        public DateTime? ModifedAt { get; set; }
 
         public ICollection<Notes> Notes { get; set; }
+        public ICollection<Lable> Lable { get; set; }
 
     }
 }
