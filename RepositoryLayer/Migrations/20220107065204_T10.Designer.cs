@@ -10,8 +10,8 @@ using RepositoryLayer.Context;
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(ucontext))]
-    [Migration("20220106171519_T6")]
-    partial class T6
+    [Migration("20220107065204_T10")]
+    partial class T10
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,9 +21,9 @@ namespace RepositoryLayer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("RepositoryLayer.Entities.Collaborator", b =>
+            modelBuilder.Entity("RepositoryLayer.Entities.Collaborate", b =>
                 {
-                    b.Property<long>("CollaboratorId")
+                    b.Property<long>("CollaborateId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -37,11 +37,11 @@ namespace RepositoryLayer.Migrations
                     b.Property<string>("SenderEmail")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CollaboratorId");
+                    b.HasKey("CollaborateId");
 
                     b.HasIndex("NotesId");
 
-                    b.ToTable("Collaborator");
+                    b.ToTable("CollaborateTable");
                 });
 
             modelBuilder.Entity("RepositoryLayer.Entities.Notes", b =>
@@ -102,7 +102,7 @@ namespace RepositoryLayer.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("Createat")
+                    b.Property<DateTime?>("CreateAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EmailId")
@@ -117,7 +117,7 @@ namespace RepositoryLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("Modifiedat")
+                    b.Property<DateTime?>("ModifiedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Password")
@@ -130,10 +130,10 @@ namespace RepositoryLayer.Migrations
                     b.ToTable("UserTable");
                 });
 
-            modelBuilder.Entity("RepositoryLayer.Entities.Collaborator", b =>
+            modelBuilder.Entity("RepositoryLayer.Entities.Collaborate", b =>
                 {
                     b.HasOne("RepositoryLayer.Entities.Notes", "Notes")
-                        .WithMany("collaborators")
+                        .WithMany("Collaborate")
                         .HasForeignKey("NotesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

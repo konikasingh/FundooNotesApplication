@@ -36,10 +36,10 @@ namespace RepositoryLayer.Entities
         public string Password { get; set; }
 
         [DataType(DataType.DateTime)]
-        public DateTime? Createat { get; set; }
+        public DateTime? CreateAt { get; set; }
 
         [DataType(DataType.DateTime)]
-        public DateTime? Modifiedat { get; set; }
+        public DateTime? ModifiedAt { get; set; }
 
         public ICollection<Notes> Notes { get; set; }
 

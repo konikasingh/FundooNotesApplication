@@ -59,6 +59,6 @@ namespace RepositoryLayer.Entities
 
         public long Id { get; set; }
 
-        public ICollection<Collaborator> collaborators { get; set; }
+        public ICollection<Collaborate> Collaborate { get; set; }
     }
 }
