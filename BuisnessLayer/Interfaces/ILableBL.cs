@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CommonLayer.Models;
+using CommonLayer.Models.Lable;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,7 @@ namespace BuisnessLayer.Interfaces
 {
     public interface ILableBL
     {
+        public LableResponseModel CreateLable(long notesId, long TokenId, LableModel model);
+
     }
 }

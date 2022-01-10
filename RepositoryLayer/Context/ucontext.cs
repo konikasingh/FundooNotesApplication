@@ -26,10 +26,14 @@ namespace RepositoryLayer.Context
         {
             get; set;
         }
+        public DbSet<Lable> LableTable
+        {
+            get; set;
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Collaborate>()
-                .HasKey(e => new {e.CollaboratorId, e.NotesId, e.Id });
+                .HasKey(e => new {e.CollaboratorId});
             modelBuilder.Entity<Collaborate>()
                 .HasOne(e => e.Notes)
                 .WithMany(e => e.Collaborate)
@@ -37,6 +41,17 @@ namespace RepositoryLayer.Context
             modelBuilder.Entity<Collaborate>()
                 .HasOne(e => e.User)
                 .WithMany(e => e.Collaborate)
+                .HasForeignKey(e => e.Id);
+
+            modelBuilder.Entity<Lable>()
+               .HasKey(e => new { e.LableId });
+            modelBuilder.Entity<Lable>()
+                .HasOne(e => e.Notes)
+                .WithMany(e => e.Lable)
+                .HasForeignKey(e => e.NotesId);
+            modelBuilder.Entity<Lable>()
+                .HasOne(e => e.User)
+                .WithMany(e => e.Lable)
                 .HasForeignKey(e => e.Id);
         }
     }

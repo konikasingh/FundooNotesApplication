@@ -46,6 +46,8 @@ namespace FundooNotes
             services.AddTransient<INotesRL, NotesRL>();
             services.AddTransient<ICollaboratorBL, CollaboratorBL>();
             services.AddTransient<ICollaboratorRL, CollaboratorRL>();
+            services.AddTransient<ILableBL, LableBL>();
+            services.AddTransient<ILableRL, LableRL>();
             services.AddDbContext<ucontext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:UserTable"]));
             services.AddDbContext<ucontext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:NotesTable"]));
             //services.AddDbContext<ucontext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:CollaborateTable"]));

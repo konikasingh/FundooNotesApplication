@@ -60,6 +60,7 @@ namespace RepositoryLayer.Entities
         public long Id { get; set; }
 
         public ICollection<Collaborate> Collaborate { get; set; }
-       
+        public virtual ICollection<Lable> Lable { get; set; }
+
     }
 }
