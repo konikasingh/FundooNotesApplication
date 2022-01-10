@@ -10,8 +10,8 @@ using RepositoryLayer.Context;
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(ucontext))]
-    [Migration("20211230073951_T2")]
-    partial class T2
+    [Migration("20220109193350_p1")]
+    partial class p1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -79,7 +79,7 @@ namespace RepositoryLayer.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("Createat")
+                    b.Property<DateTime?>("CreatAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EmailId")
@@ -94,7 +94,7 @@ namespace RepositoryLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("Modifiedat")
+                    b.Property<DateTime?>("ModifidAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Password")

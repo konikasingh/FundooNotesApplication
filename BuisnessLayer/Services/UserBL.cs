@@ -53,11 +53,11 @@ namespace BuisnessLayer.services
              return message;
         }
 
-        public string ResetPassword(ChangePasswordModel resetPassword, string emailid)
-        {
-            string message = this.UserRL.ResetPassword(resetPassword,emailid);
-            return message;
-        }
+        //public string ResetPassword(ChangePasswordModel resetPassword, string emailid)
+        //{
+        //    string message = this.UserRL.ResetPassword(resetPassword,emailid);
+        //    return message;
+        //}
     }
 }
     

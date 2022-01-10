@@ -10,25 +10,20 @@ namespace RepositoryLayer.Entities
 {
     public class Collaborate
     {
-        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required]
-        public long CollaborateId { get; set; }
+        public long CollaboratorId { get; set; }
 
-        [DataType(DataType.Text)]
-        [Display(Name = "SenderEmail:")]
-        [RegularExpression("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", ErrorMessage = "Email is not valid. Please Enter the valid email")]
-        public string SenderEmail { get; set; }
-
-        [DataType(DataType.Text)]
-        [Display(Name = "ReceiverEmail:")]
-        [RegularExpression("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", ErrorMessage = "Email is not valid. Please Enter the valid email")]
-        public string ReceiverEmail { get; set; }
 
         public Notes Notes { get; set; }
-
-        [ForeignKey("Notes")]
         public long NotesId { get; set; }
-       
+
+
+        public User User { get; set; }
+        public long Id { get; set; }
+
+
+        [DataType(DataType.EmailAddress)]
+        public string Collaborater_Email { get; set; }
+
     }
 }

@@ -181,7 +181,7 @@ namespace RepositoryLayer.Services
             {
                 string Token = GenerateJWTToken(userCheck.EmailId, userCheck.Id);
                 user = linkToBeSend;
-                using (MailMessage mailMessage = new MailMessage("konikasingh1996@gmail.com", email))
+                using (MailMessage mailMessage = new MailMessage("ktesting827@gmail.com", email))
                 {
                     mailMessage.Subject = mailSubject;                
                     mailMessage.Body = Token;
@@ -202,25 +202,25 @@ namespace RepositoryLayer.Services
             }
         }
 
-        /// <summary>
-        /// Method to reset old user password with new one.
-        /// </summary>
-        /// <param name="resetPassword"></param>
-        /// <returns>string message</returns>
-        public string ResetPassword(ChangePasswordModel resetPassword, string emailid)
-        {
-            var newPassword = this.context.UserTable.SingleOrDefault(x => x.EmailId == emailid);
-            if (newPassword != null && resetPassword.NewPassword == resetPassword.ConfirmPassword)
-            {
-                newPassword.Password = encryptpass(resetPassword.NewPassword);
-                //context.Entry(newPassword).State = EntityState.Modified;
-                context.SaveChanges();
-                return "Password Reset Successfull ! ";
-            }
-            else
-            {
-                return "Error While Resetting Password !";
-            }
-        }
+        ///// <summary>
+        ///// Method to reset old user password with new one.
+        ///// </summary>
+        ///// <param name="resetPassword"></param>
+        ///// <returns>string message</returns>
+        //public string ResetPassword(ChangePasswordModel resetPassword, string emailid)
+        //{
+        //    var newPassword = this.context.UserTable.SingleOrDefault(x => x.EmailId == emailid);
+        //    if (newPassword != null && resetPassword.NewPassword == resetPassword.ConfirmPassword)
+        //    {
+        //        newPassword.Password = encryptpass(resetPassword.NewPassword);
+        //        //context.Entry(newPassword).State = EntityState.Modified;
+        //        context.SaveChanges();
+        //        return "Password Reset Successfull ! ";
+        //    }
+        //    else
+        //    {
+        //        return "Error While Resetting Password !";
+        //    }
+        //}
     }
 }

@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RepositoryLayer.Context;
 
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(ucontext))]
-    [Migration("20220107065204_T10")]
-    partial class T10
+    partial class ucontextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,7 +21,7 @@ namespace RepositoryLayer.Migrations
 
             modelBuilder.Entity("RepositoryLayer.Entities.Collaborate", b =>
                 {
-                    b.Property<long>("CollaborateId")
+                    b.Property<long>("CollaboratorId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -31,17 +29,19 @@ namespace RepositoryLayer.Migrations
                     b.Property<long>("NotesId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("ReceiverEmail")
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Collaborater_Email")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("SenderEmail")
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("CollaboratorId", "NotesId", "Id");
 
-                    b.HasKey("CollaborateId");
+                    b.HasIndex("Id");
 
                     b.HasIndex("NotesId");
 
-                    b.ToTable("CollaborateTable");
+                    b.ToTable("CollaboratorTable");
                 });
 
             modelBuilder.Entity("RepositoryLayer.Entities.Notes", b =>
@@ -102,7 +102,7 @@ namespace RepositoryLayer.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<DateTime?>("CreateAt")
+                    b.Property<DateTime?>("CreatAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("EmailId")
@@ -117,7 +117,7 @@ namespace RepositoryLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("ModifiedAt")
+                    b.Property<DateTime?>("ModifidAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Password")
@@ -132,6 +132,12 @@ namespace RepositoryLayer.Migrations
 
             modelBuilder.Entity("RepositoryLayer.Entities.Collaborate", b =>
                 {
+                    b.HasOne("RepositoryLayer.Entities.User", "User")
+                        .WithMany("Collaborate")
+                        .HasForeignKey("Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("RepositoryLayer.Entities.Notes", "Notes")
                         .WithMany("Collaborate")
                         .HasForeignKey("NotesId")
@@ -142,7 +148,7 @@ namespace RepositoryLayer.Migrations
             modelBuilder.Entity("RepositoryLayer.Entities.Notes", b =>
                 {
                     b.HasOne("RepositoryLayer.Entities.User", "User")
-                        .WithMany("Notes")
+                        .WithMany()
                         .HasForeignKey("Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

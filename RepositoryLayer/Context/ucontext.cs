@@ -22,9 +22,22 @@ namespace RepositoryLayer.Context
         {
             get; set;
         }
-        public DbSet<Collaborate> CollaborateTable
+        public DbSet<Collaborate> CollaboratorTable
         {
             get; set;
+        }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Collaborate>()
+                .HasKey(e => new {e.CollaboratorId, e.NotesId, e.Id });
+            modelBuilder.Entity<Collaborate>()
+                .HasOne(e => e.Notes)
+                .WithMany(e => e.Collaborate)
+                .HasForeignKey(e => e.NotesId);
+            modelBuilder.Entity<Collaborate>()
+                .HasOne(e => e.User)
+                .WithMany(e => e.Collaborate)
+                .HasForeignKey(e => e.Id);
         }
     }
 

@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿//using Microsoft.AspNetCore.Http;
+//using Microsoft.AspNetCore.Mvc;
 
-namespace FundooNotes.Controllers
-{
-    [Route("api/[controller]")]
-    [ApiController]
-    public class LableController : ControllerBase
-    {
-    }
-}
+//namespace FundooNotes.Controllers
+//{
+//    [Route("api/[controller]")]
+//    [ApiController]
+//    public class LableController : ControllerBase
+//    {
+//    }
+//}

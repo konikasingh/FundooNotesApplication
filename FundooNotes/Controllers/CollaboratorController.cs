@@ -1,79 +1,56 @@
-﻿using BuisnessLayer.Interfaces;
-using CommonLayer.Models;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿//using BuisnessLayer.Interfaces;
+//using CommonLayer.Models;
+//using Microsoft.AspNetCore.Http;
+//using Microsoft.AspNetCore.Mvc;
+//using System;
 
-namespace FundooNotes.Controllers
-{
-    [Route("api/[controller]")]
-    [ApiController]
-    public class CollaboratorController : ControllerBase
-    {
-        ICollaboratorBL bl;     //create the object of IUserBL class
-        public CollaboratorController(ICollaboratorBL bl)
-        {
-            this.bl = bl;
-        }
-        /// <summary>
-        /// Added the collaborator
-        /// </summary>
-        /// <param name="collaboraters"></param>
-        /// <returns></returns>
-        [HttpPost]
-        public IActionResult AddCollaborator(CollaboratorModel collaboraters)
-        {
-            try
-            {
-                var message = this.bl.AddCollaborator(collaboraters);
-                if (message.Equals("New Collaborator added Successfully !"))
-                {
-                    return this.Ok(new { Status = true, Message = message, Data = collaboraters });
-                }
+//namespace FundooNotes.Controllers
+//{
+//    [Route("api/[controller]")]
+//    [ApiController]
+//    public class CollaboratorController : ControllerBase
+//    {
+//        ICollaboratorBL bl;     //create the object of IUserBL class
+//        public CollaboratorController(ICollaboratorBL bl)
+//        {
+//            this.bl = bl;
+//        }
+//        [HttpPost("Collaborate/{notesId}")]
+//        public IActionResult AddCollaborate(long notesId, CollaborateModel model)
+//        {
+//            try
+//            {
+//                long jwtUserId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "UserId").Value);
+//                if (jwtUserId == 0 && notesId == 0)
+//                {
+//                    return BadRequest(new { Success = false, message = "Email Missing For Collaboration" });
+//                }
+//                collaborateBL.AddCollaborate(notesId, jwtUserId, model);
+//                return Ok(new { Success = true, message = "Collaboration Successfull " });
+//            }
+//            catch (Exception ex)
+//            {
+//                return BadRequest(new { Success = false, Message = "No Notes With Particular NotesId", Exception_Message = ex.Message, StackTraceException = ex.StackTrace });
+//            }
+//        }
 
-                return this.BadRequest(new { Status = false, Message = message });
-            }
-            catch (Exception ex)
-            {
-                return this.NotFound(new { Status = false, Message = ex.Message });
-            }
-        }
-        [HttpDelete]
-        [Route("{id}")]
-        public IActionResult RemoveCollaborator(long id)
-        {
-            try
-            {
-                var message = this.bl.DeleteCollaborator(id);
-                if (message.Equals("Collaborator Deleted Successfully !"))
-                {
-                    return this.Ok(new { Status = true, Message = message, Data = id });
-                }
-
-                return this.BadRequest(new { Status = false, Message = message });
-            }
-            catch (Exception ex)
-            {
-                return this.NotFound(new { Status = false, Message = ex.Message });
-            }
-        }
-        [HttpGet]
-        public IActionResult RetrieveAllCollaborator()
-        {
-            try
-            {
-                var result = this.bl.GetCollaborators();
-                if (result != null)
-                {
-                    return this.Ok(new { Status = true, Message = "Collaborators Retrieved Successfully !", Data = result });
-                }
-
-                return this.BadRequest(new { Status = false, Message = "Unable to retrieve Collaborators" });
-            }
-            catch (Exception ex)
-            {
-                return this.NotFound(new { Status = false, Message = ex.Message });
-            }
-        }
-    }
-}
+//        [HttpDelete("{collabId}")]
+//        public IActionResult DeleteCollaborate(long collabId)
+//        {
+//            try
+//            {
+//                FundooCollaborate collab = collaborateBL.GetCollabWithId(collabId);
+//                if (collab == null)
+//                {
+//                    return BadRequest(new { Success = false, message = "No Collaboration Found" });
+//                }
+//                collaborateBL.DeleteCollab(collab);
+//                return Ok(new { Success = true, message = "Collaborated Email Removed" });
+//            }
+//            catch (Exception ex)
+//            {
+//                return BadRequest(new { Success = false, Message = ex.Message, StackTraceException = ex.StackTrace });
+//            }
+//        }
+//    }
+//}

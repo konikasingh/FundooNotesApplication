@@ -69,7 +69,7 @@ namespace FundooNotes.Controllers
             }
             catch (Exception ex)
             {
-                return this.BadRequest(new { success = false, message = ex.Message });
+                return this.BadRequest(new { success = false, message = ex.Message, InnerException=ex.InnerException });
             }
         }
         /// <summary>
@@ -250,7 +250,7 @@ namespace FundooNotes.Controllers
         /// <param name="id">note id</param>
         /// <returns>string message</returns>
         [HttpPut]
-        [Route("TrashOrRestoreNote")]
+        [Route("{id}/TrashOrRestoreNote")]
         public IActionResult TrashOrRestoreNote(int id)
         {
             try
