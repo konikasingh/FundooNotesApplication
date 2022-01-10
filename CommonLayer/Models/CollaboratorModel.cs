@@ -10,6 +10,6 @@ namespace CommonLayer.Models
 {
     public class CollaboratorModel
     {
-        public string Collaborated_Email { get; set; }
+        public string Collaborator_Email { get; set; }
     }
 }
