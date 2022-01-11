@@ -68,11 +68,11 @@ namespace BuisnessLayer.Services
             }
         }
        
-        public string PinNote(int id)
+        public string PinorUnpinNote(int id)
         {
             try
             {
-                var note = this.NotesRL.PinNote(id);
+                var note = this.NotesRL.PinorUnpinNote(id);
                 return note;
             }
             catch (Exception ex)
@@ -81,11 +81,12 @@ namespace BuisnessLayer.Services
             }
         }
 
-        public string UnpinNote(int id)
+       
+        public string ArchiveOrUnArchieveNote(int id)
         {
             try
             {
-                var note = this.NotesRL.UnpinNote(id);
+                var note = this.NotesRL.ArchiveOrUnArchieveNote(id);
                 return note;
             }
             catch (Exception ex)
@@ -93,30 +94,7 @@ namespace BuisnessLayer.Services
                 throw new Exception(ex.Message);
             }
         }
-        public string ArchiveNote(int id)
-        {
-            try
-            {
-                var note = this.NotesRL.ArchiveNote(id);
-                return note;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-        public string UnarchiveNote(int id)
-        {
-            try
-            {
-                var note = this.NotesRL.UnarchiveNote(id);
-                return note;
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+        
         public string TrashOrRestoreNote(int id)
         {
             try

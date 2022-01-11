@@ -144,18 +144,18 @@ namespace FundooNotes.Controllers
             }
         }
         /// <summary>
-        /// Controller Method call method PinNote() method to Pin the note
+        /// Controller Method call method PinOrUnpinNote() method to Pin or unpin the note
         /// </summary>
         /// <param name="id">note id</param>
         /// <returns>string message</returns>
         [HttpPut]
         [Route("PinNote")]
-        public IActionResult PinNote(int id)
+        public IActionResult PinorUnpinNote(int id)
         {
             try
             {
                 long tokenId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
-                var result = this.bl.PinNote(id);
+                var result = this.bl.PinorUnpinNote(id);
                 if (result != null)
                 {
                     return this.Ok(new  { Status = true, Message = result, Data = result });
@@ -170,44 +170,18 @@ namespace FundooNotes.Controllers
         }
 
         /// <summary>
-        /// Controller Method call method UnpinNote() method to unpin the note
-        /// </summary>
-        /// <param name="id">note id</param>
-        /// <returns>string message</returns>
-        [HttpPut]
-        [Route("UnpinNote")]
-        public IActionResult UnpinNote(int id)
-        {
-            try
-            {
-                long tokenId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
-                var result = this.bl.UnpinNote(id);
-                if (result != null)
-                {
-                    return this.Ok(new { Status = true, Message = result, Data = result });
-                }
-
-                return this.BadRequest(new { Status = false, Message = result });
-            }
-            catch (Exception ex)
-            {
-                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
-            }
-        }
-
-        /// <summary>
-        /// Controller Method call method ArchiveNote() method to Archive  the note
+        /// Controller Method call method ArchiveOrUnArchieveNote() method to Archive or unarchieve the note
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPut]
         [Route("ArchiveNote")]
-        public IActionResult ArchiveNote(int id)
+        public IActionResult ArchiveOrUnArchieveNote(int id)
         {
             try
             {
                 long tokenId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
-                var result = this.bl.ArchiveNote(id);
+                var result = this.bl.ArchiveOrUnArchieveNote(id);
                 if (result != null)
                 {
                     return this.Ok(new  { Status = true, Message = result, Data = result });
@@ -220,30 +194,7 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new  { Status = false, Message = ex.Message });
             }
         }
-        /// <summary>
-        /// Controller Method call method UnarchiveNote() method to Unarchive the note
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpPut]
-        [Route("UnarchiveNote")]
-        public IActionResult UnarchiveNote(int id)
-        {
-            try
-            {
-                var result = this.bl.UnarchiveNote(id);
-                if (result != null)
-                {
-                    return this.Ok(new { Status = true, Message = result, Data = result });
-                }
-
-                return this.BadRequest(new { Status = false, Message = result });
-            }
-            catch (Exception ex)
-            {
-                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
-            }
-        }
+       
         /// <summary>
         /// Controller method to Trash Or Restore a Note
         /// </summary>

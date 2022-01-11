@@ -125,7 +125,7 @@ namespace RepositoryLayer.Services
         /// </summary>
         /// <param name="id">note id</param>
         /// <returns>string message</returns>
-        public string PinNote(int id)
+        public string PinorUnpinNote(int id)
         {
             try
             {
@@ -144,45 +144,31 @@ namespace RepositoryLayer.Services
                     return message;
 
                 }
-                return message = "Note is unpinned by default.";
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-        public string UnpinNote(int id)
-        {
-            try
-            {
-                string message;
-                var newNote = new Notes() { NotesId = id };
-                var note = this.context.NotesTable.FirstOrDefault(x => x.NotesId == id).IsPin;
                 if (note == true)
                 {
                     var unpinNote = this.context.NotesTable.FirstOrDefault(x => x.NotesId == id).IsPin == false;
                     var unpinThisNote = context.NotesTable.FirstOrDefault(u => u.NotesId == id);
                     unpinThisNote.IsPin = unpinNote;
                     this.context.SaveChanges();
+
                     message = "Note Unpinned";
                     return message;
                 }
                 return message = "Note is unpinned by default.";
             }
-
-
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
+       
 
         /// <summary>
         /// Method to Archive or unarchive the note
         /// </summary>
         /// <param name="id">note id</param>
         /// <returns>string message</returns>
-        public string ArchiveNote(int id)
+        public string ArchiveOrUnArchieveNote(int id)
         {
             try
             {
@@ -197,25 +183,6 @@ namespace RepositoryLayer.Services
                     message = "Note Archived";
                     return message;
                 }
-
-                return message = "Unable to archive note.";
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-        /// <summary>
-        /// Method to Archive or unarchive the note
-        /// </summary>
-        /// <param name="id">note id</param>
-        /// <returns>string message</returns>
-        public string UnarchiveNote(int id)
-        {
-            try
-            {
-                string message;
-                var note = this.context.NotesTable.FirstOrDefault(x => x.NotesId == id).IsArchive;
                 if (note == true)
                 {
                     var unarchiveNote = this.context.NotesTable.FirstOrDefault(x => x.NotesId == id).IsArchive == false;
@@ -233,6 +200,7 @@ namespace RepositoryLayer.Services
                 throw new Exception(ex.Message);
             }
         }
+       
         /// <summary>
         /// Method to Trash Or Restore Note
         /// </summary>

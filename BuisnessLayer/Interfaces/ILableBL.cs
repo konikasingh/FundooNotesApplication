@@ -11,12 +11,12 @@ namespace BuisnessLayer.Interfaces
 {
     public interface ILableBL
     {
-        LableResponseModel CreateLable(long notesId, long TokenId, LableModel model);
-        LableResponseModel GetLableId(long lableId, long TokenId);
-        LableResponseModel GetAllLable(long TokenId);
+        public LableResponseModel CreateLable(long notesId, long TokenId, LableModel model);
+        public LableResponseModel GetLableId(long lableId, long TokenId);
+        public LableResponseModel GetAllLable(long TokenId);
         public void UpdateLable(Lable updateLable, LableModel model, long TokenId);
-        Lable GetLablesWithId(long lableId, long TokenId);
-        void DeleteCollab(Lable lable, long TokenId);
-        Lable AddLable(LableModel model, long TokenId);
+        public Lable GetLablesWithId(long lableId, long TokenId);
+        public void DeleteLable(Lable lable, long TokenId);
+        public Lable AddLable(LableModel model, long TokenId);
     }
 }
