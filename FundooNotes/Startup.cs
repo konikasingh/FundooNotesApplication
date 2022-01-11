@@ -50,7 +50,6 @@ namespace FundooNotes
             services.AddTransient<ILableRL, LableRL>();
             services.AddDbContext<ucontext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:UserTable"]));
             services.AddDbContext<ucontext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:NotesTable"]));
-            //services.AddDbContext<ucontext>(opts => opts.UseSqlServer(Configuration["ConnectionStrings:CollaborateTable"]));
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

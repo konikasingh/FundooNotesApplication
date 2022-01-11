@@ -181,7 +181,7 @@ namespace RepositoryLayer.Services
             {
                 string Token = GenerateJWTToken(userCheck.EmailId, userCheck.Id);
                 user = linkToBeSend;
-                using (MailMessage mailMessage = new MailMessage("ktesting827@gmail.com", email))
+                using (MailMessage mailMessage = new MailMessage("kumaeri12@gmail.com", email))
                 {
                     mailMessage.Subject = mailSubject;                
                     mailMessage.Body = Token;
@@ -190,7 +190,7 @@ namespace RepositoryLayer.Services
                     Smtp.Host = "smtp.gmail.com";
                     Smtp.EnableSsl = true;
                     Smtp.UseDefaultCredentials = false;
-                    Smtp.Credentials = new NetworkCredential("ktesting827@gmail.com", "Testing@123");
+                    Smtp.Credentials = new NetworkCredential("kumaeri12@gmail.com", "abcfstdy12");
                     Smtp.Port = 587;
                     Smtp.Send(mailMessage);
                 }
@@ -202,25 +202,25 @@ namespace RepositoryLayer.Services
             }
         }
 
-        ///// <summary>
-        ///// Method to reset old user password with new one.
-        ///// </summary>
-        ///// <param name="resetPassword"></param>
-        ///// <returns>string message</returns>
-        //public string ResetPassword(ChangePasswordModel resetPassword, string emailid)
-        //{
-        //    var newPassword = this.context.UserTable.SingleOrDefault(x => x.EmailId == emailid);
-        //    if (newPassword != null && resetPassword.NewPassword == resetPassword.ConfirmPassword)
-        //    {
-        //        newPassword.Password = encryptpass(resetPassword.NewPassword);
-        //        //context.Entry(newPassword).State = EntityState.Modified;
-        //        context.SaveChanges();
-        //        return "Password Reset Successfull ! ";
-        //    }
-        //    else
-        //    {
-        //        return "Error While Resetting Password !";
-        //    }
-        //}
+        /// <summary>
+        /// Method to reset old user password with new one.
+        /// </summary>
+        /// <param name="resetPassword"></param>
+        /// <returns>string message</returns>
+        public string ResetPassword(ChangePasswordModel resetPassword, string emailid)
+        {
+            var newPassword = this.context.UserTable.SingleOrDefault(x => x.EmailId == emailid);
+            if (newPassword != null && resetPassword.NewPassword == resetPassword.ConfirmPassword)
+            {
+                newPassword.Password = encryptpass(resetPassword.NewPassword);
+                //context.Entry(newPassword).State = EntityState.Modified;
+                context.SaveChanges();
+                return "Password Reset Successfull ! ";
+            }
+            else
+            {
+                return "Error While Resetting Password !";
+            }
+        }
     }
 }

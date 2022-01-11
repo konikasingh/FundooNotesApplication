@@ -165,7 +165,7 @@ namespace FundooNotes.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new  { Status = false, Message = ex.Message });
+                return this.NotFound(new  { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
 
@@ -191,7 +191,7 @@ namespace FundooNotes.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
 
@@ -241,7 +241,7 @@ namespace FundooNotes.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
         /// <summary>
@@ -266,7 +266,7 @@ namespace FundooNotes.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
         }
         /// <summary>
@@ -292,10 +292,8 @@ namespace FundooNotes.Controllers
             }
             catch (Exception ex)
             {
-                return this.NotFound(new { Status = false, Message = ex.Message });
+                return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
-        }
-        
-
+        }       
     }
 }
