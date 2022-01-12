@@ -1,5 +1,6 @@
 ﻿using BuisnessLayer.Interfaces;
 using CommonLayer.Models;
+using Microsoft.AspNetCore.Http;
 using RepositoryLayer.Entities;
 using RepositoryLayer.Interfaces;
 using System;
@@ -117,6 +118,17 @@ namespace BuisnessLayer.Services
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+        }
+        public void ImageNotes(Notes imageNotes, IFormFile image, long TokenId)
+        {
+            try
+            {
+                this.NotesRL.ImageNotes(imageNotes, image, TokenId);
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
         }
     }

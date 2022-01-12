@@ -1,4 +1,5 @@
 ﻿using CommonLayer.Models;
+using Microsoft.AspNetCore.Http;
 using RepositoryLayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace RepositoryLayer.Interfaces
         public string ArchiveOrUnArchieveNote(int id);
         public string TrashOrRestoreNote(int id);
         public string AddColor(long id, string color);
-        
+        public void ImageNotes(Notes imageNotes, IFormFile image, long TokenId);
+
     }
 }

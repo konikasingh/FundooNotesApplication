@@ -1,5 +1,9 @@
-﻿using CommonLayer.Models;
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using CommonLayer.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using RepositoryLayer.Context;
 using RepositoryLayer.Entities;
 using RepositoryLayer.Interfaces;
@@ -14,10 +18,11 @@ namespace RepositoryLayer.Services
     public class NotesRL : INotesRL //interface of notes class
     {
         ucontext context;
-
-        public NotesRL(ucontext context)
+        private readonly IConfiguration _config;
+        public NotesRL(ucontext context, IConfiguration config)
         {
             this.context = context;  //created the context parameter of context class
+            _config = config;
         }
         /// <summary>
         /// It will create the note for the particular user
@@ -32,7 +37,6 @@ namespace RepositoryLayer.Services
                 newNote.Id = tokenId;
                 newNote.Title = client.Title;
                 newNote.Message = client.Message;
-                newNote.Remainder = client.Remainder;
                 newNote.Color = client.Color;
                 newNote.Image = client.Image;
                 newNote.IsArchive = client.IsArchive;
@@ -160,8 +164,7 @@ namespace RepositoryLayer.Services
             {
                 throw new Exception(ex.Message);
             }
-        }
-       
+        }     
 
         /// <summary>
         /// Method to Archive or unarchive the note
@@ -267,6 +270,43 @@ namespace RepositoryLayer.Services
                 throw new Exception(ex.Message);
             }
         }
-        
+        /// <summary>
+        /// Images the notes.
+        /// </summary>
+        /// <param name="notesId">The notes identifier.</param>
+        /// <param name="imageNotes">The image notes.</param>
+        /// <param name="image">The image.</param>
+        /// <param name="jwtUserId">The JWT user identifier.</param>
+        /// <returns></returns>
+        public void ImageNotes(Notes imageNotes, IFormFile image, long TokenId)
+        {
+            try
+            {
+                var validUserId = this.context.UserTable.Where(e => e.Id == TokenId);
+                if (validUserId != null)
+                {
+                                  
+                        Account account = new Account(_config["Cloudinary:CloudName"], _config["Cloudinary:APIKey"], _config["Cloudinary:APISecret"]);
+                        var imagePath = image.OpenReadStream();
+                        Cloudinary cloudinary = new Cloudinary(account);
+                        ImageUploadParams imageParams = new ImageUploadParams()
+                        {
+                            File = new FileDescription(image.FileName, imagePath)
+                        };
+                        var uploadImage = cloudinary.Upload(imageParams).Url.ToString();
+                        imageNotes.Image = uploadImage;
+                        this.context.SaveChanges();
+                        
+                    
+                }
+                
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+        }
+
     }        
 }

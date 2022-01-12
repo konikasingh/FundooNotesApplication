@@ -12,8 +12,7 @@ namespace RepositoryLayer.Interfaces
 {
     public interface ILableRL
     {
-        public LableResponseModel CreateLable(long notesId, long TokenId, LableModel model);
-        
+        public LableResponseModel CreateLable(long notesId, long TokenId, LableModel model);        
         public LableResponseModel GetLableId(long lableId, long TokenId);
         public LableResponseModel GetAllLable(long TokenId);
         public void UpdateLable(Lable updateLable, LableModel model, long TokenId);

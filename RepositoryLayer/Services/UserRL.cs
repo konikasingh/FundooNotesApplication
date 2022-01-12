@@ -2,6 +2,7 @@
 using CommonLayer.Models;
 using Experimental.System.Messaging;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using RepositoryLayer.Context;
@@ -22,14 +23,16 @@ namespace RepositoryLayer.Services
     public class UserRL : IUserRL
     {
         ucontext context;
+        private readonly IConfiguration _config;
 
-        public UserRL(ucontext context)
+        public UserRL(ucontext context, IConfiguration config)
         {
             this.context = context;
+            _config = config;
         }
 
-        private const string Key = "this is my sample key";
-        
+        //private const string Key = "this is my sample key";
+
         /// <summary>
         /// Register the user (API) 
         /// </summary>
@@ -102,7 +105,7 @@ namespace RepositoryLayer.Services
         /// <returns></returns>
         private string GenerateJWTToken(string EmailId,long Id)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Key));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claims = new[] {
             new Claim("EmailId",EmailId),

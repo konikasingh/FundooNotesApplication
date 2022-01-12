@@ -83,6 +83,7 @@ namespace FundooNotes.Controllers
             try
             {
                 long tokenId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                
                 Notes note = bl.GetWithId(id);
                 if (note == null)
                 {
@@ -245,6 +246,31 @@ namespace FundooNotes.Controllers
             {
                 return this.NotFound(new { Status = false, Message = ex.Message, InnerException = ex.InnerException });
             }
-        }       
+        }
+        /// <summary>
+        /// Images the notes.
+        /// </summary>
+        /// <param name="notesId">The notes identifier.</param>
+        /// <param name="image">The image.</param>
+        /// <returns></returns>
+        [HttpPut("{notesId}/Image")]
+        public IActionResult ImageNotes(long notesId, IFormFile image)
+        {
+            try
+            {
+                long TokenId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                Notes imageNotes = bl.GetWithId(notesId);
+                if (imageNotes == null)
+                {
+                    return BadRequest(new { Success = false, message = "No Notes Found With NotesId" });
+                }
+                bl.ImageNotes(imageNotes, image, TokenId);
+                return Ok(new { Success = true, message = "Image Uploaded"});
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Success = false, Message = ex.Message, StackTraceException = ex.StackTrace });
+            }
+        }
     }
 }

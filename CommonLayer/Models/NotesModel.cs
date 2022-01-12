@@ -23,11 +23,6 @@ namespace CommonLayer.Models
         [Display(Name = "Message:")]
         public string Message { get; set; }
 
-        [Required(ErrorMessage = "Remainder is required")]
-        [DataType(DataType.DateTime)]
-        [Display(Name = "Remainder:")]
-        public DateTime Remainder { get; set; }
-
         [Required(ErrorMessage = "Color is required")]
         [DataType(DataType.Text)]
         [Display(Name = "Color:")]
