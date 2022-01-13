@@ -64,7 +64,11 @@ namespace RepositoryLayer.Services
                 throw;
             }
         }
-        
+
+        public IEnumerable<User> GetUserRegistration()
+        {
+            return context.UserTable.ToList();
+        }
 
         /// <summary>
         /// login of user with emailid and password

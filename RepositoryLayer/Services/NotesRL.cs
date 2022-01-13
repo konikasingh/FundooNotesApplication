@@ -100,26 +100,7 @@ namespace RepositoryLayer.Services
                 APerson.Image = person.Image;
                 APerson.IsArchive = person.IsArchive;
                 APerson.IsPin = person.IsPin;
-                this.context.SaveChanges();
-                //var user = this.context.NotesTable.FirstOrDefault(e => e.NotesId == id && e.Id == TokenId && e.IsPin == true);
-                //if (user != null)
-                //{
-                //    NotesModel model = new()
-                //    {
-                //        Id = user.Id,
-                //        NotesId = user.NotesId,
-                //        Title = user.Title,
-                //        Message = user.Message,
-                //        Color = user.Color,
-                //        Image = user.Image,
-                //        IsPin = user.IsPin,
-                //        IsArchive = user.IsArchive,
-                //        IsTrash = user.IsTrash,
-                //        Createat = user.Createat,
-                //        Modifiedat = user.Modifiedat
-                //    };
-                //    return model;
-                //}
+                this.context.SaveChanges();                
             }
             catch (Exception)
             {

@@ -115,11 +115,11 @@ namespace FundooNotes.Controllers
         /// <param name="id">note id</param>
         /// <returns>message</returns>
         [HttpPut("UpdateId")]
-        public IActionResult UpdateNotes(long id, Notes note)
+        public IActionResult UpdateNotes(int id, Notes note)
         {
             try
             {
-                long tokenId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                long TokenId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
                 Notes updateNotes = bl.GetWithId(id);
                 if (updateNotes == null)
                 {

@@ -12,6 +12,8 @@ namespace BuisnessLayer.interfaces
     public interface IUserBL
     {
         public bool Registration(UserRegistration user);
+        public IEnumerable<User> GetUserRegistration();
+
         public UserLoginResponse GetLoginData(UserLogin User1);
         public string ForgotPassword(string email);
         public string ResetPassword(ChangePasswordModel resetPassword, string emailid);

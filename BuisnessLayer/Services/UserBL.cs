@@ -30,6 +30,11 @@ namespace BuisnessLayer.services
                 throw;
             }
         }
+
+        public IEnumerable<User> GetUserRegistration()
+        {
+            return this.UserRL.GetUserRegistration();
+        }
         public UserLoginResponse GetLoginData(UserLogin User1)
         {
             try

@@ -100,7 +100,7 @@ namespace BuisnessLayer.Services
         {
             try
             {
-                var note = this.NotesRL.TrashOrRestoreNote(id,TokenId);
+                var note = this.NotesRL.TrashOrRestoreNote(id, TokenId);
                 return note;
             }
             catch (Exception ex)

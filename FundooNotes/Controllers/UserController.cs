@@ -15,6 +15,12 @@ using RepositoryLayer.Services;
 using RepositoryLayer.interfaces;
 using RepositoryLayer.Entities;
 using CommonLayer.Models;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using Newtonsoft.Json;
+using Microsoft.Extensions.Caching.Memory;
+using RepositoryLayer.Context;
+using Microsoft.Extensions.Caching.Distributed;
 
 namespace FundooNotes.Controllers
 {
@@ -22,9 +28,15 @@ namespace FundooNotes.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
+        private readonly IMemoryCache memoryCache;
+        private readonly ucontext context;
+        private readonly IDistributedCache distributedCache;
         IUserBL bl;     //create the object of IUserBL class
-        public UserController(IUserBL bl)
+        public UserController(IUserBL bl, IMemoryCache memoryCache, ucontext context, IDistributedCache distributedCache)
         {
+            this.memoryCache = memoryCache;
+            this.distributedCache = distributedCache;
+            this.context = context;
             this.bl = bl;      //bl is the parameter of IuserBL
         }
         /// <summary>
@@ -44,6 +56,27 @@ namespace FundooNotes.Controllers
                 else
                 {
                     return this.BadRequest(new { Success = false, message = "Registration Unsuccessful" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest(new { success = false, message = ex.Message });
+            }
+        }
+
+        [HttpGet("GetAllUserData")]
+        public IActionResult GetAllUserData()
+        {
+            try
+            {
+                var userDetails = this.bl.GetUserRegistration();
+                if (userDetails != null)
+                {
+                    return this.Ok(new { Success = true, userInformation = userDetails });
+                }
+                else
+                {
+                    return this.BadRequest(new { Success = false, message = "No Users Are There: " });
                 }
             }
             catch (Exception ex)
@@ -118,6 +151,32 @@ namespace FundooNotes.Controllers
             {
                 return this.BadRequest(new { success = false, Message = "Failed to Reset Password. This Email does not exis in database." });
             }
+        }
+
+        /// <summary>
+        /// Controller for redis cache
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("redis")]
+        public async Task<IActionResult> GetAllNotesUsingRedisCache()
+        {
+            var cacheKey = "userList";
+            string serializedNotesList;
+            var notesList = new List<User>();
+            var redisNotesList = await distributedCache.GetAsync(cacheKey);
+            if (redisNotesList != null)
+            {
+                serializedNotesList = Encoding.UTF8.GetString(redisNotesList);
+                notesList = JsonConvert.DeserializeObject<List<User>>(serializedNotesList);
+            }
+            else
+            {
+                notesList = (List<User>)bl.GetUserRegistration();
+                serializedNotesList = JsonConvert.SerializeObject(notesList);
+                redisNotesList = Encoding.UTF8.GetBytes(serializedNotesList);
+
+            }
+            return Ok(notesList);
         }
     }
 }
