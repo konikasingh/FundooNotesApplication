@@ -3,9 +3,16 @@ using CommonLayer.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
+using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
+using RepositoryLayer.Context;
 using RepositoryLayer.Entities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FundooNotes.Controllers
 {
@@ -14,10 +21,16 @@ namespace FundooNotes.Controllers
     [ApiController]
     public class NotesController : ControllerBase
     {
+        private readonly IMemoryCache memoryCache;
+        private readonly ucontext context;
+        private readonly IDistributedCache distributedCache;
         INotesBL bl;     //create the object of IUserBL class
-        public NotesController(INotesBL bl)
+        public NotesController(INotesBL bl, IMemoryCache memoryCache, ucontext context, IDistributedCache distributedCache)
         {
             this.bl = bl;
+            this.memoryCache = memoryCache;
+            this.distributedCache = distributedCache;
+            this.context = context;
         }
         /// <summary>
         /// Controller Method call method CreateNote() method to Create the note
@@ -248,7 +261,7 @@ namespace FundooNotes.Controllers
             }
         }
         /// <summary>
-        /// Images the notes.
+        /// Controller for Images notes.
         /// </summary>
         /// <param name="notesId">The notes identifier.</param>
         /// <param name="image">The image.</param>
@@ -269,8 +282,34 @@ namespace FundooNotes.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { Success = false, Message = ex.Message, StackTraceException = ex.StackTrace });
+                return BadRequest(new { Success = false, Message = ex.Message, InnerException = ex.InnerException });
             }
+        }
+
+        /// <summary>
+        /// Controller for redis cache
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("redis")]
+        public async Task<IActionResult> GetAllNotesUsingRedisCache()
+        {
+            var cacheKey = "notesList";
+            string serializedNotesList;
+            var notesList = new List<Notes>();
+            var redisNotesList = await distributedCache.GetAsync(cacheKey);
+            if (redisNotesList != null)
+            {
+                serializedNotesList = Encoding.UTF8.GetString(redisNotesList);
+                notesList = JsonConvert.DeserializeObject<List<Notes>>(serializedNotesList);
+            }
+            else
+            {               
+                notesList = (List<Notes>)bl.GetNotesDetail();
+                serializedNotesList = JsonConvert.SerializeObject(notesList);
+                redisNotesList = Encoding.UTF8.GetBytes(serializedNotesList);
+               
+            }
+            return Ok(notesList);
         }
     }
 }
