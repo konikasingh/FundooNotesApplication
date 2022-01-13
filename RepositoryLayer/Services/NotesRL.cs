@@ -101,6 +101,25 @@ namespace RepositoryLayer.Services
                 APerson.IsArchive = person.IsArchive;
                 APerson.IsPin = person.IsPin;
                 this.context.SaveChanges();
+                //var user = this.context.NotesTable.FirstOrDefault(e => e.NotesId == id && e.Id == TokenId && e.IsPin == true);
+                //if (user != null)
+                //{
+                //    NotesModel model = new()
+                //    {
+                //        Id = user.Id,
+                //        NotesId = user.NotesId,
+                //        Title = user.Title,
+                //        Message = user.Message,
+                //        Color = user.Color,
+                //        Image = user.Image,
+                //        IsPin = user.IsPin,
+                //        IsArchive = user.IsArchive,
+                //        IsTrash = user.IsTrash,
+                //        Createat = user.Createat,
+                //        Modifiedat = user.Modifiedat
+                //    };
+                //    return model;
+                //}
             }
             catch (Exception)
             {
@@ -129,42 +148,72 @@ namespace RepositoryLayer.Services
         /// </summary>
         /// <param name="id">note id</param>
         /// <returns>string message</returns>
-        public string PinorUnpinNote(int id)
+        public NotesModel PinorUnpinNote(int id, long TokenId)
         {
             try
             {
-                string message;
-                var newNote = new Notes() { NotesId = id };
-                var note = this.context.NotesTable.FirstOrDefault(x => x.NotesId == id).IsPin;
-                if (note == false)
+                var validUserId = this.context.UserTable.Where(e => e.Id == TokenId);
+                if (validUserId != null)
                 {
-
-                    var pinNote = this.context.NotesTable.FirstOrDefault(x => x.NotesId == id).IsPin == true;
-                    var pinThisNote = context.NotesTable.FirstOrDefault(u => u.NotesId == id);
-                    pinThisNote.IsPin = pinNote;
-                    this.context.SaveChanges();
-
-                    message = "Note Pinned";
-                    return message;
-
+                    var pinNotes = this.context.NotesTable.FirstOrDefault(e => e.NotesId == id && e.IsPin == false);
+                    if (pinNotes != null)
+                    {
+                        pinNotes.IsPin = true;
+                        this.context.SaveChanges();
+                        var pinn = this.context.NotesTable.FirstOrDefault(e => e.NotesId == id && e.Id == TokenId && e.IsPin == true);
+                        if (pinn != null)
+                        {
+                            NotesModel model = new()
+                            {
+                                Id = pinn.Id,
+                                NotesId = pinn.NotesId,
+                                Title = pinn.Title,
+                                Message = pinn.Message,
+                                Color = pinn.Color,
+                                Image = pinn.Image,
+                                IsPin = pinn.IsPin,
+                                IsArchive = pinn.IsArchive,
+                                IsTrash = pinn.IsTrash,
+                                Createat = pinn.Createat,
+                                Modifiedat = pinn.Modifiedat
+                            };
+                            return model;
+                        }
+                    }
+                    var unPinNotes = this.context.NotesTable.FirstOrDefault(e => e.NotesId == id && e.IsPin == true);
+                    if (unPinNotes != null)
+                    {
+                        unPinNotes.IsPin = false;
+                        this.context.SaveChanges();
+                        var unpinn = this.context.NotesTable.FirstOrDefault(e => e.NotesId == id && e.Id == TokenId && e.IsPin == false);
+                        if (unpinn != null)
+                        {
+                            NotesModel model = new()
+                            {
+                                Id = unpinn.Id,
+                                NotesId = unpinn.NotesId,
+                                Title = unpinn.Title,
+                                Message = unpinn.Message,
+                                Color = unpinn.Color,
+                                Image = unpinn.Image,
+                                IsPin = unpinn.IsPin,
+                                IsArchive = unpinn.IsArchive,
+                                IsTrash = unpinn.IsTrash,
+                                Createat = unpinn.Createat,
+                                Modifiedat = unpinn.Modifiedat
+                            };
+                            return model;
+                        }
+                    }
                 }
-                if (note == true)
-                {
-                    var unpinNote = this.context.NotesTable.FirstOrDefault(x => x.NotesId == id).IsPin == false;
-                    var unpinThisNote = context.NotesTable.FirstOrDefault(u => u.NotesId == id);
-                    unpinThisNote.IsPin = unpinNote;
-                    this.context.SaveChanges();
-
-                    message = "Note Unpinned";
-                    return message;
-                }
-                return message = "Note is unpinned by default.";
+                return null;
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
-        }     
+
+        }
 
         /// <summary>
         /// Method to Archive or unarchive the note
@@ -284,8 +333,7 @@ namespace RepositoryLayer.Services
             {
                 var validUserId = this.context.UserTable.Where(e => e.Id == TokenId);
                 if (validUserId != null)
-                {
-                                  
+                {                                 
                         Account account = new Account(_config["Cloudinary:CloudName"], _config["Cloudinary:APIKey"], _config["Cloudinary:APISecret"]);
                         var imagePath = image.OpenReadStream();
                         Cloudinary cloudinary = new Cloudinary(account);
@@ -295,18 +343,13 @@ namespace RepositoryLayer.Services
                         };
                         var uploadImage = cloudinary.Upload(imageParams).Url.ToString();
                         imageNotes.Image = uploadImage;
-                        this.context.SaveChanges();
-                        
-                    
-                }
-                
+                        this.context.SaveChanges();                                          
+                }                
             }
             catch (Exception ex)
             {
-
                 throw;
             }
         }
-
     }        
 }

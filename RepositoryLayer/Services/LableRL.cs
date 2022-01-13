@@ -178,7 +178,7 @@ namespace RepositoryLayer.Services
         /// <param name="model"></param>
         /// <param name="TokenId"></param>
         /// <returns></returns>
-        public Lable AddLable(LableModel model, long TokenId)
+        public LableResponseModel AddLable(LableModel model, long TokenId)
         {
             try
             {
@@ -189,8 +189,20 @@ namespace RepositoryLayer.Services
                     {
                         LableName = model.LableName,
                         Id = TokenId
+
                     };
-                    return lable;
+                    this.context.Add(lable);
+                    this.context.SaveChanges();
+
+                    LableResponseModel responseModel = new()
+                    {
+                        LableId = lable.LableId,
+                        NotesId = lable.NotesId,
+                        Id = lable.Id,
+                        LableName = lable.LableName
+
+                    };
+                    return responseModel;
                 }
                 return null;
             }

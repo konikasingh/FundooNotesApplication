@@ -81,7 +81,7 @@ namespace BuisnessLayer.Services
             }
         }
 
-        public Lable AddLable(LableModel model, long TokenId)
+        public LableResponseModel AddLable(LableModel model, long TokenId)
         {
             return this.LableRL.AddLable(model, TokenId);
         }

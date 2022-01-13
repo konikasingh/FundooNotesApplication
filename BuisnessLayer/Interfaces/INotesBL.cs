@@ -16,7 +16,7 @@ namespace BuisnessLayer.Interfaces
         public Notes GetWithId(long id);
         public void UpdateNotes(Notes APerson, Notes person);
         public void DeleteNotes(Notes person);
-        public string PinorUnpinNote(int id);
+        public NotesModel PinorUnpinNote(int id, long TokenId);
         public string ArchiveOrUnArchieveNote(int id);
         public string TrashOrRestoreNote(int id);
         public string AddColor(long id, string color);

@@ -18,7 +18,7 @@ namespace RepositoryLayer.Interfaces
         public void UpdateLable(Lable updateLable, LableModel model, long TokenId);
         public Lable GetLablesWithId(long lableId, long TokenId);
         public void DeleteLable(Lable model, long TokenId);
-        public Lable AddLable(LableModel model, long TokenId);
+        public LableResponseModel AddLable(LableModel model, long TokenId);
 
 
     }

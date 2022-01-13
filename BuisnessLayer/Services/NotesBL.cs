@@ -68,12 +68,12 @@ namespace BuisnessLayer.Services
                 throw;
             }
         }
-       
-        public string PinorUnpinNote(int id)
+
+        public NotesModel PinorUnpinNote(int id, long TokenId)
         {
             try
             {
-                var note = this.NotesRL.PinorUnpinNote(id);
+                var note = this.NotesRL.PinorUnpinNote(id,TokenId);
                 return note;
             }
             catch (Exception ex)

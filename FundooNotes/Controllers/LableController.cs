@@ -147,7 +147,7 @@ namespace FundooNotes.Controllers
         /// </summary>
         /// <param name="model">The model.</param>
         /// <returns></returns>
-        [HttpPut("AddLable")]
+        [HttpPost("AddLable")]
         public IActionResult AddLable(LableModel model)
         {
             try
@@ -157,7 +157,7 @@ namespace FundooNotes.Controllers
                 {
                     return BadRequest(new { Success = false, message = "No Notes Found With NotesId" });
                 }
-                Lable addLable = bl.AddLable(model, TokenId);
+                LableResponseModel addLable = bl.AddLable(model, TokenId);
                 return Ok(new { Success = true, message = "Lable Updated Sucessfully", addLable });
             }
             catch (Exception ex)
