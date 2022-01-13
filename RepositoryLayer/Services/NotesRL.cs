@@ -220,75 +220,141 @@ namespace RepositoryLayer.Services
         /// </summary>
         /// <param name="id">note id</param>
         /// <returns>string message</returns>
-        public string ArchiveOrUnArchieveNote(int id)
+        public NotesModel ArchiveOrUnArchieveNote(int id, long TokenId)
         {
             try
             {
-                string message;
-                var note = this.context.NotesTable.FirstOrDefault(x => x.NotesId == id).IsArchive;
-                if (note == false)
+                var validUserId = this.context.UserTable.Where(e => e.Id == TokenId);
+                if (validUserId != null)
                 {
-                    var archiveNote = this.context.NotesTable.FirstOrDefault(x => x.NotesId == id).IsArchive == true;
-                    var archiveThisNote = context.NotesTable.FirstOrDefault(u => u.NotesId == id);
-                    archiveThisNote.IsArchive = archiveNote;
-                    this.context.SaveChanges();
-                    message = "Note Archived";
-                    return message;
+                    var ArchiveNotes = this.context.NotesTable.FirstOrDefault(e => e.NotesId == id && e.IsArchive == false);
+                    if (ArchiveNotes != null)
+                    {
+                        ArchiveNotes.IsArchive = true;
+                        this.context.SaveChanges();
+                        var archi = this.context.NotesTable.FirstOrDefault(e => e.NotesId == id && e.Id == TokenId && e.IsArchive == true);
+                        if (archi != null)
+                        {
+                            NotesModel model = new()
+                            {
+                                Id = archi.Id,
+                                NotesId = archi.NotesId,
+                                Title = archi.Title,
+                                Message = archi.Message,
+                                Color = archi.Color,
+                                Image = archi.Image,
+                                IsPin = archi.IsPin,
+                                IsArchive = archi.IsArchive,
+                                IsTrash = archi.IsTrash,
+                                Createat = archi.Createat,
+                                Modifiedat = archi.Modifiedat
+                            };
+                            return model;
+                        }
+                    }
+                    var unArchiveNotes = this.context.NotesTable.FirstOrDefault(e => e.NotesId == id && e.IsArchive == true);
+                    if (unArchiveNotes != null)
+                    {
+                        unArchiveNotes.IsArchive = false;
+                        this.context.SaveChanges();
+                        var unarchi = this.context.NotesTable.FirstOrDefault(e => e.NotesId == id && e.Id == TokenId && e.IsArchive == false);
+                        if (unarchi != null)
+                        {
+                            NotesModel model = new()
+                            {
+                                Id = unarchi.Id,
+                                NotesId = unarchi.NotesId,
+                                Title = unarchi.Title,
+                                Message = unarchi.Message,
+                                Color = unarchi.Color,
+                                Image = unarchi.Image,
+                                IsPin = unarchi.IsPin,
+                                IsArchive = unarchi.IsArchive,
+                                IsTrash = unarchi.IsTrash,
+                                Createat = unarchi.Createat,
+                                Modifiedat = unarchi.Modifiedat
+                            };
+                            return model;
+                        }
+                    }
                 }
-                if (note == true)
-                {
-                    var unarchiveNote = this.context.NotesTable.FirstOrDefault(x => x.NotesId == id).IsArchive == false;
-                    var unarchiveThisNote = context.NotesTable.FirstOrDefault(u => u.NotesId == id);
-                    unarchiveThisNote.IsArchive = unarchiveNote;
-                    this.context.SaveChanges();
-                    message = "Note Unarchived";
-                    return message;
-                }
-
-                return message = "Unable to unarchive note.";
+                return null;
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
+
         }
-       
+
         /// <summary>
         /// Method to Trash Or Restore Note
         /// </summary>
         /// <param name="id">int id</param>
         /// <returns>string message</returns>
-        public string TrashOrRestoreNote(int id)
+        public NotesModel TrashOrRestoreNote(int id, long TokenId)
         {
             try
             {
-                string message;
-                var note = this.context.NotesTable.Where(x => x.NotesId == id).SingleOrDefault();
-                if (note != null)
+                var validUserId = this.context.UserTable.Where(e => e.Id == TokenId);
+                if (validUserId != null)
                 {
-                    if (note.IsTrash == false)
+                    var TrashNotes = this.context.NotesTable.FirstOrDefault(e => e.NotesId == id && e.IsTrash == false);
+                    if (TrashNotes != null)
                     {
-                        note.IsTrash = true;
-                        this.context.Entry(note).State = EntityState.Modified;
+                        TrashNotes.IsTrash = true;
                         this.context.SaveChanges();
-                        message = "Note Restored";
-                        return message;
+                        var del = this.context.NotesTable.FirstOrDefault(e => e.NotesId == id && e.Id == TokenId && e.IsTrash == true);
+                        if (del != null)
+                        {
+                            NotesModel model = new()
+                            {
+                                Id = del.Id,
+                                NotesId = del.NotesId,
+                                Title = del.Title,
+                                Message = del.Message,
+                                Color = del.Color,
+                                Image = del.Image,
+                                IsPin = del.IsPin,
+                                IsArchive = del.IsArchive,
+                                IsTrash = del.IsTrash,
+                                Createat = del.Createat,
+                                Modifiedat = del.Modifiedat
+                            };
+                            return model;
+                        }
                     }
-                    if (note.IsTrash == true)
+                    var RestroreNotes = this.context.NotesTable.FirstOrDefault(e => e.NotesId == id && e.IsTrash == true);
+                    if (RestroreNotes != null)
                     {
-                        note.IsTrash = false;
-                        this.context.Entry(note).State = EntityState.Modified;
+                        RestroreNotes.IsTrash = false;
                         this.context.SaveChanges();
-                        message = "Note Trashed";
-                        return message;
+                        var restor = this.context.NotesTable.FirstOrDefault(e => e.NotesId == id && e.Id == TokenId && e.IsTrash == false);
+                        if (restor != null)
+                        {
+                            NotesModel model = new()
+                            {
+                                Id = restor.Id,
+                                NotesId = restor.NotesId,
+                                Title = restor.Title,
+                                Message = restor.Message,
+                                Color = restor.Color,
+                                Image = restor.Image,
+                                IsPin = restor.IsPin,
+                                IsArchive = restor.IsArchive,
+                                IsTrash = restor.IsTrash,
+                                Createat = restor.Createat,
+                                Modifiedat = restor.Modifiedat
+                            };
+                            return model;
+                        }
                     }
                 }
-
-                return message = "Unable to Restore or Trash note.";
+                return null;
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw;
             }
         }
         /// <summary>

@@ -17,8 +17,8 @@ namespace RepositoryLayer.Interfaces
         public void UpdateNotes(Notes APerson, Notes person);
         public void DeleteNotes(Notes person);
         public NotesModel PinorUnpinNote(int id, long TokenId);
-        public string ArchiveOrUnArchieveNote(int id);
-        public string TrashOrRestoreNote(int id);
+        public NotesModel ArchiveOrUnArchieveNote(int id, long TokenId);
+        public NotesModel TrashOrRestoreNote(int id, long TokenId);
         public string AddColor(long id, string color);
         public void ImageNotes(Notes imageNotes, IFormFile image, long TokenId);
 

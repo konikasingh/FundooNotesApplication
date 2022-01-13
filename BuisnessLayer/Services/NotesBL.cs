@@ -82,12 +82,12 @@ namespace BuisnessLayer.Services
             }
         }
 
-       
-        public string ArchiveOrUnArchieveNote(int id)
+
+        public NotesModel ArchiveOrUnArchieveNote(int id, long TokenId)
         {
             try
             {
-                var note = this.NotesRL.ArchiveOrUnArchieveNote(id);
+                var note = this.NotesRL.ArchiveOrUnArchieveNote(id,TokenId);
                 return note;
             }
             catch (Exception ex)
@@ -95,12 +95,12 @@ namespace BuisnessLayer.Services
                 throw new Exception(ex.Message);
             }
         }
-        
-        public string TrashOrRestoreNote(int id)
+
+        public NotesModel TrashOrRestoreNote(int id, long TokenId)
         {
             try
             {
-                var note = this.NotesRL.TrashOrRestoreNote(id);
+                var note = this.NotesRL.TrashOrRestoreNote(id,TokenId);
                 return note;
             }
             catch (Exception ex)

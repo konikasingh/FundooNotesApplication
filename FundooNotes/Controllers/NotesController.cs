@@ -194,11 +194,11 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                long tokenId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
-                var result = this.bl.ArchiveOrUnArchieveNote(id);
+                long TokenId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                var result = this.bl.ArchiveOrUnArchieveNote(id,TokenId);
                 if (result != null)
                 {
-                    return this.Ok(new  { Status = true, Message = result, Data = result });
+                    return this.Ok(new  { Status = true, Message = result });
                 }
 
                 return this.BadRequest(new  { Status = false, Message = result });
@@ -220,8 +220,8 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                long tokenId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
-                var result = this.bl.TrashOrRestoreNote(id);
+                long TokenId = Convert.ToInt32(User.Claims.FirstOrDefault(e => e.Type == "Id").Value);
+                var result = this.bl.TrashOrRestoreNote(id,TokenId);
                 if (result != null)
                 {
                     return this.Ok(new { Status = true, Message = result, Data = result });
